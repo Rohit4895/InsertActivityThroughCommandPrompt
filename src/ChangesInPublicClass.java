@@ -1,4 +1,8 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -16,11 +20,23 @@ import org.w3c.dom.NodeList;
 public class ChangesInPublicClass {
 
 	private String filePath;
+	private String wrapperActivityName;
+	private String pathToSearch;
+	private String fileName;
+	private String replaceId;
 	private Tag tagData;
+	private String wrapperActivityPath;
+	
 
-	public ChangesInPublicClass(String filePath, Tag allData) {
+	public ChangesInPublicClass(String filePath, Tag allData, String replaceId,
+			String wrapperActivityPath, String pathToSearch, String fileName, String wrapperActivityName) {
 		this.filePath = filePath;
 		this.tagData = allData;
+		this.replaceId = replaceId;
+		this.wrapperActivityPath = wrapperActivityPath;
+		this.pathToSearch = pathToSearch;
+		this.fileName = fileName;
+		this.wrapperActivityName = wrapperActivityName;
 	}
 
 	public void execute() {
@@ -54,10 +70,11 @@ public class ChangesInPublicClass {
 			}
 
 			int id = maxId + 1;
+			String newId = "0x" + Integer.toHexString(id);
 
 			System.out.println("ids: " + maxId);
 
-			newTag.setAttribute("id", "0x" + Integer.toHexString(id));
+			newTag.setAttribute("id", newId);
 
 			mainParentNode.appendChild(newTag);
 
@@ -68,8 +85,73 @@ public class ChangesInPublicClass {
 			transformer.transform(domSource, result);
 
 			System.out.println("Done...");
+			
+			getCorrectFilePath(newId);
 
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void getCorrectFilePath(String newId) {
+	
+		FileSearch fileSearch = new FileSearch();
+
+		// try different directory and filename :)
+		fileSearch.searchDirectory(new File(pathToSearch), fileName);
+
+		int count = fileSearch.getResult().size();
+		if (count == 0) {
+			System.out.println("\nNo result found!");
+		} else {
+			System.out.println("\nFound " + count + " result!\n");
+			for (String matched : fileSearch.getResult()) {
+				System.out.println("Found : " + matched);
+				addWrapperActivity(matched, newId);
+			}
+		}
+		
+	}
+	
+	private void addWrapperActivity(String matchedPath, String newId) {
+		try {
+			String getRightPath[] = matchedPath.split("\\\\");
+			String pathToWriteFile = "";
+			for(int i=0 ; i< getRightPath.length-1; i++) {
+				pathToWriteFile+=getRightPath[i]+"/";
+			}
+			
+			pathToWriteFile+=wrapperActivityName;
+			
+			File f1 = new File(wrapperActivityPath);
+			File f2 = new File(pathToWriteFile);
+			String[] words = null;
+
+			FileReader fr = new FileReader(f1);
+			FileWriter fw = new FileWriter(f2);
+			BufferedReader br = new BufferedReader(fr);
+			BufferedWriter bw = new BufferedWriter(fw);
+			String s;
+			while ((s = br.readLine()) != null) {
+				String line = "";
+				words = s.split(" ");
+				for (String word : words) {
+					if (word.equals(replaceId)) {
+						line += newId + " ";
+					} else {
+						line += word + " ";
+					}
+				}
+
+				System.out.println("S: " + s);
+				System.out.println("Line: " + line);
+
+				bw.write(line + "\n");
+			}
+
+			br.close();
+			bw.close();
+		}catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

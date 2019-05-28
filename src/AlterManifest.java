@@ -28,7 +28,8 @@ public class AlterManifest {
 		this.allData = allData;
 	}
 
-	public void execute() {
+	public String execute() {
+		String splashActivityPath="";
 		try {
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -46,6 +47,8 @@ public class AlterManifest {
 					activityNode = (Element) element.getParentNode().getParentNode();
 					System.out.println("name: " + activityNode.getAttribute("android:name"));
 
+					splashActivityPath = activityNode.getAttribute("android:name");
+					
 					activitySubNodes = activityNode.getChildNodes();
 
 					for (int j = 0; j < activityNode.getChildNodes().getLength(); j++) {
@@ -117,8 +120,12 @@ public class AlterManifest {
 
 			System.out.println("Done...");
 
+			return splashActivityPath;
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		return "";
 	}
 }
