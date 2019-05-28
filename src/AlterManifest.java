@@ -78,30 +78,32 @@ public class AlterManifest {
 						element.setAttribute(attributes.getAttributeName(), attributes.getAttributeValue());
 
 					}
+				}
+					
+					System.out.println("sub tag size: "+tagsPojo.getSubTags().size());
 
 					if (tagsPojo.getSubTags().size() > 0) {
 
 						for (int j = 0; j < tagsPojo.getSubTags().size(); j++) {
 							Tag subTags = tagsPojo.getSubTags().get(j);
 							Element subTagElement = doc.createElement(subTags.getParentTag());
+							System.out.println("sub tag: "+subTags.getParentTag());
 
 							if (subTags.getListParentTagAttributes().size() > 0) {
 
 								for (int k = 0; k < subTags.getListParentTagAttributes().size(); k++) {
 
 									Attributes subAttributes = subTags.getListParentTagAttributes().get(k);
-									element.setAttribute(subAttributes.getAttributeName(),
+									subTagElement.setAttribute(subAttributes.getAttributeName(),
 											subAttributes.getAttributeValue());
-
+									
 								}
-
+								
 							}
-
+							
 							element.appendChild(subTagElement);
 						}
 					}
-
-				}
 
 				activityNode.appendChild(element);
 			}

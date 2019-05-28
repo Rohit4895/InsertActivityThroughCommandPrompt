@@ -45,6 +45,9 @@ public class InsertActivityMainClass {
 		 * catch (IOException e) { e.printStackTrace(); }
 		 */
 
+		
+		
+		
 		List<Tag> finalList = new ArrayList<Tag>();
 
 		Tag tagIntent = new Tag();
@@ -53,7 +56,6 @@ public class InsertActivityMainClass {
 		Tag subTagAction = new Tag();
 		subTagAction.setParentTag("action");
 		subTagAction.add(new Attributes("android:name", "com.custom.action"));
-		subTagAction.add(new Attributes("android:xyz", "com.custom.action.abc"));
 		tagIntent.addSubTags(subTagAction);
 
 		Tag subTagCategory = new Tag();
@@ -65,6 +67,12 @@ public class InsertActivityMainClass {
 
 		String manifestPath = "C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Mini_Militia\\AndroidManifest.xml";
 		new AlterManifest(manifestPath, finalList).execute();
+		
+		/*
+		 * new ChangesInPublicClass(
+		 * "C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Mini_Militia\\res\\values\\public.xml",
+		 * new ArrayList<Tag>()).execute();
+		 */
 
 	}
 
