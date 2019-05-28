@@ -21,9 +21,9 @@ public class AlterManifest {
 	private String manifestPath;
 	private NodeList activitySubNodes;
 	private Element activityNode;
-	private List<ManifestTagsPojo> allData;
+	private List<Tag> allData;
 
-	public AlterManifest(String manifestPath,List<ManifestTagsPojo> allData) {
+	public AlterManifest(String manifestPath, List<Tag> allData) {
 		this.manifestPath = manifestPath;
 		this.allData = allData;
 	}
@@ -65,49 +65,48 @@ public class AlterManifest {
 			}
 
 			application.appendChild(activityWrapper);
-			
-			for(int i=0 ; i<allData.size(); i++) {
-				ManifestTagsPojo tagsPojo = allData.get(i);
-				Element element = doc.createElement(tagsPojo.getChildTag());
-				
-				if(tagsPojo.getChildAttributesAndValues().size() > 0)
-					for (Entry<String, String> entry : tagsPojo.getChildAttributesAndValues().entrySet() ) {
-						element.setAttribute(entry.getKey(), entry.getValue());
+
+			for (int i = 0; i < allData.size(); i++) {
+
+				Tag tagsPojo = allData.get(i);
+				Element element = doc.createElement(tagsPojo.getParentTag());
+				if (tagsPojo.getListParentTagAttributes().size() > 0) {
+
+					for (int j = 0; j < tagsPojo.getListParentTagAttributes().size(); j++) {
+
+						Attributes attributes = tagsPojo.getListParentTagAttributes().get(j);
+						element.setAttribute(attributes.getAttributeName(), attributes.getAttributeValue());
+
 					}
-				
-				if(tagsPojo.getSubChildTag().size() > 0)
-					for(int j=0; j<tagsPojo.getSubChildTag().size(); j++) {
-						String subChildTag = tagsPojo.getSubChildTag().get(j);
-						Element tagElement = doc.createElement(subChildTag);
-						
-						if(tagsPojo.getSubChildAttributesAndValues().size() > 0)
-							for(int k=0; k<tagsPojo.getSubChildAttributesAndValues().size(); k++) {
-							Map<String, String> attriAndVal = tagsPojo.getSubChildAttributesAndValues().get(k);
-							for (Entry<String, String> entry : attriAndVal.entrySet() ) {
-								tagElement.setAttribute(entry.getKey(), entry.getValue());
+
+					if (tagsPojo.getSubTags().size() > 0) {
+
+						for (int j = 0; j < tagsPojo.getSubTags().size(); j++) {
+							Tag subTags = tagsPojo.getSubTags().get(j);
+							Element subTagElement = doc.createElement(subTags.getParentTag());
+
+							if (subTags.getListParentTagAttributes().size() > 0) {
+
+								for (int k = 0; k < subTags.getListParentTagAttributes().size(); k++) {
+
+									Attributes subAttributes = subTags.getListParentTagAttributes().get(k);
+									element.setAttribute(subAttributes.getAttributeName(),
+											subAttributes.getAttributeValue());
+
+								}
+
 							}
-							}
-						element.appendChild(tagElement);
+
+							element.appendChild(subTagElement);
+						}
 					}
+
+				}
+
 				activityNode.appendChild(element);
-				
 			}
-			
-			
-			
-			/*
-			 * 
-			 * action.setAttribute("android:name", "com.custom.action"); Element category =
-			 * doc.createElement("category"); category.setAttribute("android:name",
-			 * "android.intent.category.DEFAULT");
-			 
 
-			element.appendChild(action);
-			element.appendChild(category);
-
-			activityNode.appendChild(element);
-*/
-			//write to file
+			// write to file
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource domSource = new DOMSource(doc);

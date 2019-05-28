@@ -36,8 +36,7 @@ public class InsertActivityMainClass {
 		 * 
 		 * } } catch (Exception e) { e.printStackTrace(); }
 		 */
-		
-		
+
 		/*
 		 * try { new APKToolDecompile(
 		 * "C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\apktool_2.4.0.jar",
@@ -45,46 +44,28 @@ public class InsertActivityMainClass {
 		 * "C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Mini_Militia") .execute(); }
 		 * catch (IOException e) { e.printStackTrace(); }
 		 */
-		
-		
-		
-		
-		List<String> subChildTags = new ArrayList<String>();
-		subChildTags.add("action");
-		subChildTags.add("category");
-		
-		Map<String, String> child = new HashMap<String, String>();
-		
-		List<Map<String, String>> listOfSubChildMap = new ArrayList<Map<String,String>>();
-		listOfSubChildMap.add(getMap("android:name", "com.custom.action"));
-		
-		List<ManifestTagsPojo> finalList = new ArrayList<ManifestTagsPojo>();
-		finalList.add(getAllData("intent-filter", child, subChildTags, listOfSubChildMap));
-		
-		
-		
-		
-		String manifestPath = "C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Mini_Militia\\AndroidManifest.xml";
-		new AlterManifest(manifestPath, finalList)
-		.execute();
 
-	}
-	
-	private static ManifestTagsPojo getAllData(String childTag, Map<String, String> child, List<String> subChildTags, List<Map<String, String>> listOfSubChildMap) {
-		ManifestTagsPojo manifestTagsPojo = new ManifestTagsPojo();
-		
-		manifestTagsPojo.setChildTag(childTag);
-		manifestTagsPojo.setChildAttributesAndValues(child);
-		manifestTagsPojo.setSubChildTag(subChildTags);
-		manifestTagsPojo.setSubChildAttributesAndValues(listOfSubChildMap);
-		
-		return manifestTagsPojo;
-	}
-	
-	private static Map getMap(String key, String value) {
-		Map<String, String> subChildAttributesAndValues = new HashMap<String, String>();
-		subChildAttributesAndValues.put(key,value);
-		return subChildAttributesAndValues;
+		List<Tag> finalList = new ArrayList<Tag>();
+
+		Tag tagIntent = new Tag();
+		tagIntent.setParentTag("intent-filter");
+
+		Tag subTagAction = new Tag();
+		subTagAction.setParentTag("action");
+		subTagAction.add(new Attributes("android:name", "com.custom.action"));
+		subTagAction.add(new Attributes("android:xyz", "com.custom.action.abc"));
+		tagIntent.addSubTags(subTagAction);
+
+		Tag subTagCategory = new Tag();
+		subTagCategory.setParentTag("category");
+		subTagCategory.add(new Attributes("android:name", "android.intent.category.DEFAULT"));
+		tagIntent.addSubTags(subTagCategory);
+
+		finalList.add(tagIntent);
+
+		String manifestPath = "C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Mini_Militia\\AndroidManifest.xml";
+		new AlterManifest(manifestPath, finalList).execute();
+
 	}
 
 }
