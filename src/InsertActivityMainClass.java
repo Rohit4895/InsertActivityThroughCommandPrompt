@@ -16,109 +16,204 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-import javax.imageio.ImageIO;
+public class InsertActivityMainClass implements CallBacksForInsertActivity {
 
-import org.opencv.core.Core;
-import org.opencv.core.Mat;
-import org.opencv.imgcodecs.Imgcodecs;
+	private String splashActivityName;
+	
+	@Override
+	public void decompile(int status) {
+		System.out.println("Status: " + status+" on decompile");
+		if (status == 1)
+			return;
 
-public class InsertActivityMainClass {
+		List<Tag> finalList = new ArrayList<Tag>();
 
-	public static void main(String[] args) {
+		Tag tagIntent = new Tag();
+		tagIntent.setParentTag("intent-filter");
+
+		Tag subTagAction = new Tag();
+		subTagAction.setParentTag("action");
+		subTagAction.add(new Attributes("android:name", "com.custom.action"));
+		tagIntent.addSubTags(subTagAction);
+
+		Tag subTagCategory = new Tag();
+		subTagCategory.setParentTag("category");
+		subTagCategory.add(new Attributes("android:name", "android.intent.category.DEFAULT"));
+		tagIntent.addSubTags(subTagCategory);
+
+		finalList.add(tagIntent);
+
+		//"C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Mini_Militia\\AndroidManifest.xml"
+		
+		String manifestPath = "C:\\Users\\admin\\Desktop\\roh\\Mars\\Mars_Mars\\AndroidManifest.xml";
+	    new AlterManifest(manifestPath, finalList, new InsertActivityMainClass()).execute();
+
+	}
+
+	@Override
+	public void manifestModification(String status, String splashActivityName) {
+		this.splashActivityName = splashActivityName;
+		System.out.println("Status: " + status+" on manifestModification");
+		if (status.isEmpty())
+			return;
+		
+		// "C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\RequiredData\\background.png",
+		//"C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Mini_Militia\\res\\drawable\\background.png"
+
+		new InsertImageDrawable("C:\\Users\\admin\\Desktop\\roh\\Mars\\RequiredData\\background.png",
+				"C:\\Users\\admin\\Desktop\\roh\\Mars\\Mars_Mars\\res\\drawable\\background.png", 
+				new InsertActivityMainClass()).execute();
+
+	}
+
+	@Override
+	public void insertionOfImage(String status) {
+		System.out.println("Status: " + status+" on insertionOfImage");
+		if (!status.equalsIgnoreCase("success"))
+			return;
+
+		Tag tagPublic = new Tag();
+		tagPublic.setParentTag("public");
+		tagPublic.add(new Attributes("type", "drawable"));
+		tagPublic.add(new Attributes("name", "background"));
+
+		String replaceId = "0x7f020093";
+		
 		/*
-		 * try { Runtime rt = Runtime.getRuntime();
-		 * 
-		 * Process process = rt.
-		 * exec("cmd /c C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\apktool_2.4.0.jar d C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Mini_Militia_4.2.8.apk -o C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Mini_Militia"
-		 * ); Scanner scanner = new Scanner(process.getInputStream(), "UTF-8");
-		 * while(scanner.hasNext()) { System.out.println(scanner.next()); }
-		 * 
-		 * Scanner scannerErr = new Scanner(process.getErrorStream(), "UTF-8");
-		 * while(scannerErr.hasNext()) { System.out.println(scannerErr.next()); }
-		 * 
-		 * System.out.println("Exit Code: "+process.waitFor());
-		 * 
-		 * Process process1 =
-		 * rt.exec("cmd /c apktool_2.4.0.jar d Mini_Militia_4.2.8.apk");
-		 * System.out.println("Exit Code: "+process1.waitFor());
-		 * 
-		 * 
-		 * 
-		 * while(process.waitFor() != 0) {
-		 * 
-		 * } } catch (Exception e) { e.printStackTrace(); }
-		 */
-
-		/*
-		 * try { new APKToolDecompile(
-		 * "C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\apktool_2.4.0.jar",
-		 * "C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Mini_Militia_4.2.8.apk",
-		 * "C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Mini_Militia") .execute(); }
-		 * catch (IOException e) { e.printStackTrace(); }
-		 */
-
-		// ==========================================================================================
-
-		/*
-		 * List<Tag> finalList = new ArrayList<Tag>();
-		 * 
-		 * Tag tagIntent = new Tag(); tagIntent.setParentTag("intent-filter");
-		 * 
-		 * Tag subTagAction = new Tag(); subTagAction.setParentTag("action");
-		 * subTagAction.add(new Attributes("android:name", "com.custom.action"));
-		 * tagIntent.addSubTags(subTagAction);
-		 * 
-		 * Tag subTagCategory = new Tag(); subTagCategory.setParentTag("category");
-		 * subTagCategory.add(new Attributes("android:name",
-		 * "android.intent.category.DEFAULT")); tagIntent.addSubTags(subTagCategory);
-		 * 
-		 * finalList.add(tagIntent);
-		 * 
-		 * String manifestPath =
-		 * "C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Mini_Militia\\AndroidManifest.xml";
-		 * String splashActivityPath = new AlterManifest(manifestPath, finalList).execute();
-		 */
-
-		// ===========================================================================================
-
-		/*
-		 * try{ FileInputStream fin=new FileInputStream(
-		 * "C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\RequiredData\\background.png");
-		 * BufferedInputStream bin=new BufferedInputStream(fin); FileOutputStream fout =
-		 * new FileOutputStream(
-		 * "C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Mini_Militia\\res\\drawable\\background.png"
-		 * ); BufferedOutputStream bout=new BufferedOutputStream(fout); int i;
-		 * while((i=bin.read())!=-1){ bout.write(i); } bin.close(); fin.close();
-		 * bout.flush(); bout.close(); fout.close(); System.out.println("Success..");
-		 * }catch(Exception e) { System.out.println("Error: "+e); }
-		 */
-
-		// ===========================================================================================
-
-		/*
-		 * Tag tagPublic = new Tag(); tagPublic.setParentTag("public");
-		 * tagPublic.add(new Attributes("type", "drawable")); tagPublic.add(new
-		 * Attributes("name", "backgroundImg"));
-		 * 
-		 * String replaceId = "0x7f020093"; String xmlPath =
+		 * String xmlPath =
 		 * "C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Mini_Militia\\res\\values\\public.xml";
 		 * String activityPath =
 		 * "C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\RequiredData\\MainActivity.smali";
 		 * String pathToSearch =
 		 * "C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Mini_Militia"; String fileName
-		 * = "DA2Activity.smali"; String wrapperActivityName = "MainActivity.smali";
-		 * 
-		 * new ChangesInPublicClass(xmlPath,tagPublic,replaceId, activityPath,
-		 * pathToSearch, fileName, wrapperActivityName).execute();
+		 * = "DA2Activity.smali";
 		 */
 		
-		// ===========================================================================================
+		String xmlPath = "C:\\Users\\admin\\Desktop\\roh\\Mars\\Mars_Mars\\res\\values\\public.xml";
+		String activityPath = "C:\\Users\\admin\\Desktop\\roh\\Mars\\RequiredData\\MainActivity.smali";
+		String pathToSearch = "C:\\Users\\admin\\Desktop\\roh\\Mars\\Mars_Mars";
+		String fileName = splashActivityName;
+		String wrapperActivityName = "MainActivity.smali";
+
+		new ChangesInPublicClass(xmlPath, tagPublic, replaceId, activityPath, pathToSearch, fileName,
+				wrapperActivityName, new InsertActivityMainClass()).execute();
+
+	}
+
+	@Override
+	public void insertionOfWrapperActivity(String status) {
+		System.out.println("Status: " + status+" on insertionOfWrapperActivity");
+		if (!status.equalsIgnoreCase("success"))
+			return;
 		int exitCode = 0;
 		try {
-			exitCode = new CompileModifiedApp("C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\apktool_2.4.0.jar", "MiniMilitia").execute();
-			System.out.println("ExitCode: "+exitCode);
+			//"C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\apktool_2.4.0.jar",
+			//"C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Mini_Militia"
+			
+			exitCode = new CompileModifiedApp("C:\\Users\\admin\\Desktop\\roh\\Mars\\apktool_2.4.0.jar",
+					"C:\\Users\\admin\\Desktop\\roh\\Mars\\Mars_Mars",
+					new InsertActivityMainClass()).execute();
+			System.out.println("ExitCode: " + exitCode);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+
+			System.out.println("Error: " + e);
+		}
+	}
+
+	@Override
+	public void compileApk(int status) {
+		System.out.println("Status: " + status+" on compileApk");
+		if(status == 1)
+			return;
+
+		int exitCode1 = 0;
+		try {
+			
+			//"C:\\Users\\admin\\AppData\\Local\\Android\\Sdk\\build-tools\\28.0.3",
+			//"C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Mini_Militia\\dist\\Mini_Militia.apk",
+			//"C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Mini_Militia\\dist\\Mini_Militia-align.apk"
+			
+			exitCode1 = new ZipAlignApk("C:\\Users\\admin\\AppData\\Local\\Android\\Sdk\\build-tools\\28.0.3",
+					"C:\\Users\\admin\\Desktop\\roh\\Mars\\Mars_Mars\\dist\\Mars_Mars.apk",
+					"C:\\Users\\admin\\Desktop\\roh\\Mars\\Mars_Mars\\dist\\Mars_Mars-align.apk",
+					new InsertActivityMainClass())
+							.execute();
+			System.out.println("ExitCode: " + exitCode1);
+		} catch (IOException e) {
+			System.out.println("Error: " + e);
+		}
+
+	}
+
+	@Override
+	public void zipAlign(int status) {
+		System.out.println("Status: " + status+" on zipAlign");
+		if (status == 1)
+			return;
+
+		String keyStoreCredentials = "--ks-key-alias marketplace --ks-pass pass:123456 --key-pass pass:123456";
+
+		int exitCode2 = 0;
+		try {
+			
+			//"C:\\Users\\admin\\AppData\\Local\\Android\\Sdk\\build-tools\\28.0.3",
+			//"C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\RequiredData\\marketplace.jks",
+			//"C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Mini_Militia\\dist\\Mini_Militia-align.apk"
+			
+			exitCode2 = new GenerateSignApk("C:\\Users\\admin\\AppData\\Local\\Android\\Sdk\\build-tools\\28.0.3",
+					"C:\\Users\\admin\\Desktop\\roh\\Mars\\RequiredData\\marketplace.jks",
+					"C:\\Users\\admin\\Desktop\\roh\\Mars\\Mars_Mars\\dist\\Mars_Mars-align.apk",
+					keyStoreCredentials,
+					new InsertActivityMainClass()).execute();
+			System.out.println("ExitCode: " + exitCode2);
+		} catch (IOException e) {
+			System.out.println("Error: " + e);
+		}
+	}
+
+	@Override
+	public void signedApk(int status) {
+		System.out.println("Status: " + status+" on signedApk");
+		int exitCode3 = 0;
+		try {
+			
+			//"C:\\Users\\admin\\AppData\\Local\\Android\\Sdk\\platform-tools",
+			//"C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Mini_Militia\\dist\\Mini_Militia-align.apk"
+			
+			exitCode3 = new InstallApk("C:\\Users\\admin\\AppData\\Local\\Android\\Sdk\\platform-tools",
+					"C:\\Users\\admin\\Desktop\\roh\\Mars\\Mars_Mars\\dist\\Mars_Mars-align.apk",
+					new InsertActivityMainClass())
+							.execute();
+			System.out.println("ExitCode: " + exitCode3);
+		} catch (IOException e) {
+			System.out.println("Error: " + e);
+		}
+
+	}
+
+	@Override
+	public void installedApk(int status) {
+		System.out.println("Status: " + status+" on installedApk");
+		if (status == 1)
+			return;
+		System.out.println("Activity inserted successfully...");
+
+	}
+
+	public static void main(String[] args) {
+		
+		//"C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\apktool_2.4.0.jar",
+		//"C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Mini_Militia.apk",
+		//"C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Mini_Militia"
+
+		try {
+			int exitStatus = new APKToolDecompile("C:\\Users\\admin\\Desktop\\roh\\Mars\\apktool_2.4.0.jar",
+					"C:\\Users\\admin\\Desktop\\roh\\Mars\\Mars_Mars.apk",
+					"C:\\Users\\admin\\Desktop\\roh\\Mars\\Mars_Mars", new InsertActivityMainClass())
+							.execute();
+
+			System.out.println("ExitStatus: " + exitStatus);
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 

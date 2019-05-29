@@ -7,13 +7,16 @@ public class APKToolDecompile {
 	private String pathApkTool;
 	private String pathApk;
 	private String pathToFolder;
+	private CallBacksForInsertActivity callBackDecompile;
 	
 	public APKToolDecompile(String pathApkTool,
 			String pathApk,
-			String pathToFolder) {
+			String pathToFolder,
+			CallBacksForInsertActivity callBackDecompile) {
 		this.pathApkTool = pathApkTool;
 		this.pathApk = pathApk;
 		this.pathToFolder = pathToFolder;
+		this.callBackDecompile = callBackDecompile;
 	}
 	
 	public int execute() throws IOException {
@@ -47,6 +50,9 @@ public class APKToolDecompile {
 			System.out.println(scannerErr.next());
 		}
 		
+		callBackDecompile.decompile(process.exitValue());
 		return process.exitValue();
+		
 	}
+	
 }

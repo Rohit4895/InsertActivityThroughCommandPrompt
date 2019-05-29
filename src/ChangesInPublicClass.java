@@ -14,6 +14,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -26,10 +27,12 @@ public class ChangesInPublicClass {
 	private String replaceId;
 	private Tag tagData;
 	private String wrapperActivityPath;
+	private CallBacksForInsertActivity callBackInsertActivity;
 	
 
 	public ChangesInPublicClass(String filePath, Tag allData, String replaceId,
-			String wrapperActivityPath, String pathToSearch, String fileName, String wrapperActivityName) {
+			String wrapperActivityPath, String pathToSearch, String fileName, String wrapperActivityName,
+			CallBacksForInsertActivity callBackInsertActivity) {
 		this.filePath = filePath;
 		this.tagData = allData;
 		this.replaceId = replaceId;
@@ -37,6 +40,7 @@ public class ChangesInPublicClass {
 		this.pathToSearch = pathToSearch;
 		this.fileName = fileName;
 		this.wrapperActivityName = wrapperActivityName;
+		this.callBackInsertActivity = callBackInsertActivity;
 	}
 
 	public void execute() {
@@ -61,12 +65,16 @@ public class ChangesInPublicClass {
 
 			for (int i = 0; i < tagList.getLength(); i++) {
 				Element element = (Element) tagList.item(i);
-
+				String drawableAttribute = element.getAttribute("type");
+				
+				if(drawableAttribute.equals("drawable")) {
+					
 				String hex = element.getAttribute("id");
 				int len = hex.length();
 
 				if (Integer.parseInt(hex.substring(2, len), 16) > maxId)
 					maxId = Integer.parseInt(hex.substring(2, len), 16);
+				}
 			}
 
 			int id = maxId + 1;
@@ -97,7 +105,6 @@ public class ChangesInPublicClass {
 	
 		FileSearch fileSearch = new FileSearch();
 
-		// try different directory and filename :)
 		fileSearch.searchDirectory(new File(pathToSearch), fileName);
 
 		int count = fileSearch.getResult().size();
@@ -151,6 +158,8 @@ public class ChangesInPublicClass {
 
 			br.close();
 			bw.close();
+			
+			callBackInsertActivity.insertionOfWrapperActivity("success");
 		}catch (Exception e) {
 			e.printStackTrace();
 		}

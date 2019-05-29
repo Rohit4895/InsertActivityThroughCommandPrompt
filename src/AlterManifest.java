@@ -22,10 +22,12 @@ public class AlterManifest {
 	private NodeList activitySubNodes;
 	private Element activityNode;
 	private List<Tag> allData;
+	private CallBacksForInsertActivity callBackmanifest;
 
-	public AlterManifest(String manifestPath, List<Tag> allData) {
+	public AlterManifest(String manifestPath, List<Tag> allData, CallBacksForInsertActivity callBackmanifest) {
 		this.manifestPath = manifestPath;
 		this.allData = allData;
+		this.callBackmanifest = callBackmanifest;
 	}
 
 	public String execute() {
@@ -57,6 +59,11 @@ public class AlterManifest {
 					}
 				}
 
+			}
+			
+			String splashActivityName [] = splashActivityPath.split("\\.");
+			for (int i = 0; i < splashActivityName.length; i++) {
+				System.out.println("String: "+splashActivityName[i]+" index: "+i+" length "+splashActivityName.length);
 			}
 
 			Node application = doc.getElementsByTagName("application").item(0);
@@ -110,6 +117,8 @@ public class AlterManifest {
 
 				activityNode.appendChild(element);
 			}
+			
+			
 
 			// write to file
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -119,7 +128,12 @@ public class AlterManifest {
 			transformer.transform(domSource, result);
 
 			System.out.println("Done...");
+			
+			
+			
+			//System.out.println("Splash: "+splashActivityName[(splashActivityName.length-1)]);
 
+			callBackmanifest.manifestModification("success",splashActivityName[(splashActivityName.length-1)]+".smali");
 			return splashActivityPath;
 			
 		} catch (Exception e) {

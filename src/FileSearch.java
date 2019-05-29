@@ -41,6 +41,7 @@ public class FileSearch {
 			// do you have permission to read this directory?
 			if (file.canRead()) {
 				for (File temp : file.listFiles()) {
+					System.out.println("Upper Temp: "+temp);
 					if (temp.isDirectory()) {
 						System.out.println();
 						System.out.println("temp: " + temp.getName());
