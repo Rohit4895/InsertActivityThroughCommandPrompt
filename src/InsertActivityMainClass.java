@@ -18,13 +18,34 @@ import java.util.Scanner;
 
 public class InsertActivityMainClass implements CallBacksForInsertActivity {
 
-	private String splashActivityName;
+	private static String apktoolJarPath;
+	private static String decompileApkPath;
+	private static String folderPathToStoreDecompileData;
+	private static String manifestPath;
+	private static String imageDrawableSourcePath;
+	private static String imageDrawableDestinationPath;
+	private static String replaceId;
+	private static String xmlPath;
+	private static String activityPath;
+	private static String pathToSearch;
+	private static String fileName;
+	private static String wrapperActivityName;
+	private static String zipAlignSdkBuildToolPath;
+	private static String compiledApkPath;
+	private static String compiledAlignedApkPath;
+	private static String signedSdkPlatformToolPath;
+	private static String signedApkPath;
+	private static String signSdkBuildToolPath;
+	private static String keyStoreFilePath;
+	private static String keyStoreCredentials;
+	private static String splashActivityName;
 	
 	@Override
 	public void decompile(int status) {
 		System.out.println("Status: " + status+" on decompile");
 		if (status == 1)
 			return;
+		
 
 		List<Tag> finalList = new ArrayList<Tag>();
 
@@ -43,9 +64,6 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 
 		finalList.add(tagIntent);
 
-		//"C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Mini_Militia\\AndroidManifest.xml"
-		
-		String manifestPath = "C:\\Users\\admin\\Desktop\\roh\\Mars\\Mars_Mars\\AndroidManifest.xml";
 	    new AlterManifest(manifestPath, finalList, new InsertActivityMainClass()).execute();
 
 	}
@@ -53,15 +71,12 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 	@Override
 	public void manifestModification(String status, String splashActivityName) {
 		this.splashActivityName = splashActivityName;
-		System.out.println("Status: " + status+" on manifestModification");
+		System.out.println("Status: " + status+" on manifestModification Splash Name: "+this.splashActivityName);
 		if (status.isEmpty())
 			return;
-		
-		// "C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\RequiredData\\background.png",
-		//"C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Mini_Militia\\res\\drawable\\background.png"
 
-		new InsertImageDrawable("C:\\Users\\admin\\Desktop\\roh\\Mars\\RequiredData\\background.png",
-				"C:\\Users\\admin\\Desktop\\roh\\Mars\\Mars_Mars\\res\\drawable\\background.png", 
+		new InsertImageDrawable(imageDrawableSourcePath,
+				imageDrawableDestinationPath, 
 				new InsertActivityMainClass()).execute();
 
 	}
@@ -77,25 +92,7 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 		tagPublic.add(new Attributes("type", "drawable"));
 		tagPublic.add(new Attributes("name", "background"));
 
-		String replaceId = "0x7f020093";
-		
-		/*
-		 * String xmlPath =
-		 * "C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Mini_Militia\\res\\values\\public.xml";
-		 * String activityPath =
-		 * "C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\RequiredData\\MainActivity.smali";
-		 * String pathToSearch =
-		 * "C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Mini_Militia"; String fileName
-		 * = "DA2Activity.smali";
-		 */
-		
-		String xmlPath = "C:\\Users\\admin\\Desktop\\roh\\Mars\\Mars_Mars\\res\\values\\public.xml";
-		String activityPath = "C:\\Users\\admin\\Desktop\\roh\\Mars\\RequiredData\\MainActivity.smali";
-		String pathToSearch = "C:\\Users\\admin\\Desktop\\roh\\Mars\\Mars_Mars";
-		String fileName = splashActivityName;
-		String wrapperActivityName = "MainActivity.smali";
-
-		new ChangesInPublicClass(xmlPath, tagPublic, replaceId, activityPath, pathToSearch, fileName,
+		new ChangesInPublicClass(xmlPath, tagPublic, replaceId, activityPath, pathToSearch, splashActivityName,
 				wrapperActivityName, new InsertActivityMainClass()).execute();
 
 	}
@@ -107,11 +104,9 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 			return;
 		int exitCode = 0;
 		try {
-			//"C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\apktool_2.4.0.jar",
-			//"C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Mini_Militia"
-			
-			exitCode = new CompileModifiedApp("C:\\Users\\admin\\Desktop\\roh\\Mars\\apktool_2.4.0.jar",
-					"C:\\Users\\admin\\Desktop\\roh\\Mars\\Mars_Mars",
+
+			exitCode = new CompileModifiedApp(apktoolJarPath,
+					folderPathToStoreDecompileData,
 					new InsertActivityMainClass()).execute();
 			System.out.println("ExitCode: " + exitCode);
 		} catch (IOException e) {
@@ -129,13 +124,9 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 		int exitCode1 = 0;
 		try {
 			
-			//"C:\\Users\\admin\\AppData\\Local\\Android\\Sdk\\build-tools\\28.0.3",
-			//"C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Mini_Militia\\dist\\Mini_Militia.apk",
-			//"C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Mini_Militia\\dist\\Mini_Militia-align.apk"
-			
-			exitCode1 = new ZipAlignApk("C:\\Users\\admin\\AppData\\Local\\Android\\Sdk\\build-tools\\28.0.3",
-					"C:\\Users\\admin\\Desktop\\roh\\Mars\\Mars_Mars\\dist\\Mars_Mars.apk",
-					"C:\\Users\\admin\\Desktop\\roh\\Mars\\Mars_Mars\\dist\\Mars_Mars-align.apk",
+			exitCode1 = new ZipAlignApk(zipAlignSdkBuildToolPath,
+					compiledApkPath,
+					compiledAlignedApkPath,
 					new InsertActivityMainClass())
 							.execute();
 			System.out.println("ExitCode: " + exitCode1);
@@ -151,18 +142,12 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 		if (status == 1)
 			return;
 
-		String keyStoreCredentials = "--ks-key-alias marketplace --ks-pass pass:123456 --key-pass pass:123456";
-
 		int exitCode2 = 0;
 		try {
-			
-			//"C:\\Users\\admin\\AppData\\Local\\Android\\Sdk\\build-tools\\28.0.3",
-			//"C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\RequiredData\\marketplace.jks",
-			//"C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Mini_Militia\\dist\\Mini_Militia-align.apk"
-			
-			exitCode2 = new GenerateSignApk("C:\\Users\\admin\\AppData\\Local\\Android\\Sdk\\build-tools\\28.0.3",
-					"C:\\Users\\admin\\Desktop\\roh\\Mars\\RequiredData\\marketplace.jks",
-					"C:\\Users\\admin\\Desktop\\roh\\Mars\\Mars_Mars\\dist\\Mars_Mars-align.apk",
+
+			exitCode2 = new GenerateSignApk(signSdkBuildToolPath,
+					keyStoreFilePath,
+					signedApkPath,
 					keyStoreCredentials,
 					new InsertActivityMainClass()).execute();
 			System.out.println("ExitCode: " + exitCode2);
@@ -176,12 +161,9 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 		System.out.println("Status: " + status+" on signedApk");
 		int exitCode3 = 0;
 		try {
-			
-			//"C:\\Users\\admin\\AppData\\Local\\Android\\Sdk\\platform-tools",
-			//"C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Mini_Militia\\dist\\Mini_Militia-align.apk"
-			
-			exitCode3 = new InstallApk("C:\\Users\\admin\\AppData\\Local\\Android\\Sdk\\platform-tools",
-					"C:\\Users\\admin\\Desktop\\roh\\Mars\\Mars_Mars\\dist\\Mars_Mars-align.apk",
+
+			exitCode3 = new InstallApk(signedSdkPlatformToolPath,
+					signedApkPath,
 					new InsertActivityMainClass())
 							.execute();
 			System.out.println("ExitCode: " + exitCode3);
@@ -201,15 +183,69 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 	}
 
 	public static void main(String[] args) {
-		
-		//"C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\apktool_2.4.0.jar",
-		//"C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Mini_Militia.apk",
-		//"C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Mini_Militia"
 
+		Scanner scanner = new Scanner(System.in);
+		
+		System.out.println("Enter APKTool Jar path: ");
+		apktoolJarPath = scanner.nextLine();
+		
+		System.out.println("Enter Decompile APK path: ");
+		decompileApkPath = scanner.nextLine();
+		
+		System.out.println("Enter Folder Path To Store Decompile Data: ");
+		folderPathToStoreDecompileData = scanner.nextLine();
+		
+		System.out.println("Enter ManifestPath: ");
+		manifestPath = scanner.nextLine();
+		
+		System.out.println("Enter Image Source Path: ");
+		imageDrawableSourcePath = scanner.nextLine();
+		
+		System.out.println("Enter Image Destination Path: ");
+		imageDrawableDestinationPath = scanner.nextLine();
+		
+		System.out.println("Enter Resource Id To Replace:  ");
+		replaceId = scanner.nextLine();
+		
+		System.out.println("Enter Public.xml Path: ");
+		xmlPath = scanner.nextLine();
+		
+		System.out.println("Enter Wrapper Activity Path: ");
+		activityPath = scanner.nextLine();
+		
+		pathToSearch = folderPathToStoreDecompileData;
+		
+		System.out.println("Enter Wrapper Activity Name: ");
+		wrapperActivityName = scanner.nextLine();
+		
+		System.out.println("Enter Zip Align SDK Build Tool Path: ");
+		zipAlignSdkBuildToolPath = scanner.nextLine();
+		
+		System.out.println("Enter Compiled APK Path: ");
+		compiledApkPath = scanner.nextLine();
+		
+		System.out.println("Enter Compiled Align APK Path: ");
+		compiledAlignedApkPath = scanner.nextLine();
+		
+		System.out.println("Enter SDK Platform Tool Path: ");
+		signedSdkPlatformToolPath = scanner.nextLine();
+		
+		System.out.println("Enter signed APK Path: ");
+		signedApkPath = scanner.nextLine();
+		
+		signSdkBuildToolPath = zipAlignSdkBuildToolPath;
+		
+		System.out.println("Enter Keystore File Path: ");
+		keyStoreFilePath = scanner.nextLine();
+		
+		System.out.println("Enter KeyStore Credentials: ");
+		keyStoreCredentials = scanner.nextLine();
+		
+		
 		try {
-			int exitStatus = new APKToolDecompile("C:\\Users\\admin\\Desktop\\roh\\Mars\\apktool_2.4.0.jar",
-					"C:\\Users\\admin\\Desktop\\roh\\Mars\\Mars_Mars.apk",
-					"C:\\Users\\admin\\Desktop\\roh\\Mars\\Mars_Mars", new InsertActivityMainClass())
+			int exitStatus = new APKToolDecompile(apktoolJarPath,
+					decompileApkPath,
+					folderPathToStoreDecompileData, new InsertActivityMainClass())
 							.execute();
 
 			System.out.println("ExitStatus: " + exitStatus);
