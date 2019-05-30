@@ -20,7 +20,7 @@ public class AlterManifest {
 
 	private String manifestPath;
 	private NodeList activitySubNodes;
-	private Element activityNode;
+	private Element activityNode, activityWrapper;
 	private List<Tag> allData;
 	private CallBacksForInsertActivity callBackmanifest;
 
@@ -31,7 +31,7 @@ public class AlterManifest {
 	}
 
 	public String execute() {
-		String splashActivityPath="";
+		String splashActivityPath = "";
 		try {
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -50,29 +50,37 @@ public class AlterManifest {
 					System.out.println("name: " + activityNode.getAttribute("android:name"));
 
 					splashActivityPath = activityNode.getAttribute("android:name");
-					
+
 					activitySubNodes = activityNode.getChildNodes();
+					
+				    activityWrapper = doc.createElement("activity");
+					activityWrapper.setAttribute("android:name", "com.demo.MainActivity");
+					
+					for (int k = 0; k < activityNode.getChildNodes().getLength(); k++) {
+						activityWrapper.appendChild(activityNode.getChildNodes().item(k));
+					}
+					
 
 					for (int j = 0; j < activityNode.getChildNodes().getLength(); j++) {
-						System.out.println(" subChild: " + activityNode.getChildNodes().item(j).getNodeName());
+						System.out.println(" subChild: " + activityNode.getChildNodes().item(j).getNodeName().toString()
+								+ " length of sub child: " + activityNode.getChildNodes().getLength());
+
 						activityNode.removeChild(activityNode.getChildNodes().item(j));
 					}
+
 				}
 
 			}
-			
-			String splashActivityName [] = splashActivityPath.split("\\.");
+
+			String splashActivityName[] = splashActivityPath.split("\\.");
 			for (int i = 0; i < splashActivityName.length; i++) {
-				System.out.println("String: "+splashActivityName[i]+" index: "+i+" length "+splashActivityName.length);
+				System.out.println(
+						"String: " + splashActivityName[i] + " index: " + i + " length " + splashActivityName.length);
 			}
 
 			Node application = doc.getElementsByTagName("application").item(0);
 
-			Element activityWrapper = doc.createElement("activity");
-			activityWrapper.setAttribute("android:name", "com.demo.MainActivity");
-			for (int i = 0; i < activitySubNodes.getLength(); i++) {
-				activityWrapper.appendChild(activitySubNodes.item(i));
-			}
+			
 
 			application.appendChild(activityWrapper);
 
@@ -89,36 +97,34 @@ public class AlterManifest {
 
 					}
 				}
-					
-					System.out.println("sub tag size: "+tagsPojo.getSubTags().size());
 
-					if (tagsPojo.getSubTags().size() > 0) {
+				System.out.println("sub tag size: " + tagsPojo.getSubTags().size());
 
-						for (int j = 0; j < tagsPojo.getSubTags().size(); j++) {
-							Tag subTags = tagsPojo.getSubTags().get(j);
-							Element subTagElement = doc.createElement(subTags.getParentTag());
-							System.out.println("sub tag: "+subTags.getParentTag());
+				if (tagsPojo.getSubTags().size() > 0) {
 
-							if (subTags.getListParentTagAttributes().size() > 0) {
+					for (int j = 0; j < tagsPojo.getSubTags().size(); j++) {
+						Tag subTags = tagsPojo.getSubTags().get(j);
+						Element subTagElement = doc.createElement(subTags.getParentTag());
+						System.out.println("sub tag: " + subTags.getParentTag());
 
-								for (int k = 0; k < subTags.getListParentTagAttributes().size(); k++) {
+						if (subTags.getListParentTagAttributes().size() > 0) {
 
-									Attributes subAttributes = subTags.getListParentTagAttributes().get(k);
-									subTagElement.setAttribute(subAttributes.getAttributeName(),
-											subAttributes.getAttributeValue());
-									
-								}
-								
+							for (int k = 0; k < subTags.getListParentTagAttributes().size(); k++) {
+
+								Attributes subAttributes = subTags.getListParentTagAttributes().get(k);
+								subTagElement.setAttribute(subAttributes.getAttributeName(),
+										subAttributes.getAttributeValue());
+
 							}
-							
-							element.appendChild(subTagElement);
+
 						}
+
+						element.appendChild(subTagElement);
 					}
+				}
 
 				activityNode.appendChild(element);
 			}
-			
-			
 
 			// write to file
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -128,18 +134,18 @@ public class AlterManifest {
 			transformer.transform(domSource, result);
 
 			System.out.println("Done...");
-			
-			
-			
-			//System.out.println("Splash: "+splashActivityName[(splashActivityName.length-1)]);
 
-			callBackmanifest.manifestModification("success",splashActivityName[(splashActivityName.length-1)].trim()+".smali");
+			// System.out.println("Splash:
+			// "+splashActivityName[(splashActivityName.length-1)]);
+
+			callBackmanifest.manifestModification("success",
+					splashActivityName[(splashActivityName.length - 1)].trim() + ".smali");
 			return splashActivityPath;
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return "";
 	}
 }

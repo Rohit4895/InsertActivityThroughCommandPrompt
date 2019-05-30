@@ -16,6 +16,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
 public class InsertActivityMainClass implements CallBacksForInsertActivity {
 
 	private static String apktoolJarPath;
@@ -64,7 +68,20 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 
 		finalList.add(tagIntent);
 
-	    new AlterManifest(manifestPath, finalList, new InsertActivityMainClass()).execute();
+	    //new AlterManifest(manifestPath, finalList, new InsertActivityMainClass()).execute();
+		
+		try {
+			new DemoAlterMenifest(manifestPath, finalList, new InsertActivityMainClass()).execute();
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
@@ -75,9 +92,10 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 		if (status.isEmpty())
 			return;
 
-		new InsertImageDrawable(imageDrawableSourcePath,
-				imageDrawableDestinationPath, 
-				new InsertActivityMainClass()).execute();
+		/*
+		 * new InsertImageDrawable(imageDrawableSourcePath,
+		 * imageDrawableDestinationPath, new InsertActivityMainClass()).execute();
+		 */
 
 	}
 
