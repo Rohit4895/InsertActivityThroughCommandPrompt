@@ -30,7 +30,7 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 	private static String imageDrawableDestinationPath;
 	private static String replaceId;
 	private static String xmlPath;
-	private static String activityPath;
+	private static String wrapperActivityPath;
 	private static String pathToSearch;
 	private static String fileName;
 	private static String wrapperActivityName;
@@ -43,14 +43,13 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 	private static String keyStoreFilePath;
 	private static String keyStoreCredentials;
 	private static String splashActivityName;
+	private static String requiredDataPath;
+	private static InsertActivityMainClass mainClass;
+	
 	
 	@Override
-	public void decompile(int status) {
-		System.out.println("Status: " + status+" on decompile");
-		if (status == 1)
-			return;
+	public void assignedValuesToAllStringCallBack() {
 		
-
 		List<Tag> finalList = new ArrayList<Tag>();
 
 		Tag tagIntent = new Tag();
@@ -71,7 +70,7 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 	    //new AlterManifest(manifestPath, finalList, new InsertActivityMainClass()).execute();
 		
 		try {
-			new DemoAlterMenifest(manifestPath, finalList, new InsertActivityMainClass()).execute();
+			new DemoAlterMenifest(manifestPath, finalList, mainClass).execute();
 		} catch (ParserConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -82,6 +81,16 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+	}
+	
+	@Override
+	public void decompile(int status) {
+		System.out.println("Status: " + status+" on decompile");
+		if (status == 1)
+			return;
+		
+		mainClass.assignValuesToRemainingString();
 
 	}
 
@@ -92,10 +101,10 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 		if (status.isEmpty())
 			return;
 
-		/*
-		 * new InsertImageDrawable(imageDrawableSourcePath,
-		 * imageDrawableDestinationPath, new InsertActivityMainClass()).execute();
-		 */
+		 
+		  new InsertImageDrawable(imageDrawableSourcePath,
+		  imageDrawableDestinationPath, mainClass).execute();
+		 
 
 	}
 
@@ -110,8 +119,8 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 		tagPublic.add(new Attributes("type", "drawable"));
 		tagPublic.add(new Attributes("name", "background"));
 
-		new ChangesInPublicClass(xmlPath, tagPublic, replaceId, activityPath, pathToSearch, splashActivityName,
-				wrapperActivityName, new InsertActivityMainClass()).execute();
+		new ChangesInPublicClass(xmlPath, tagPublic, replaceId, wrapperActivityPath, pathToSearch, splashActivityName,
+				wrapperActivityName, mainClass).execute();
 
 	}
 
@@ -125,7 +134,7 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 
 			exitCode = new CompileModifiedApp(apktoolJarPath,
 					folderPathToStoreDecompileData,
-					new InsertActivityMainClass()).execute();
+					mainClass).execute();
 			System.out.println("ExitCode: " + exitCode);
 		} catch (IOException e) {
 
@@ -145,7 +154,7 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 			exitCode1 = new ZipAlignApk(zipAlignSdkBuildToolPath,
 					compiledApkPath,
 					compiledAlignedApkPath,
-					new InsertActivityMainClass())
+					mainClass)
 							.execute();
 			System.out.println("ExitCode: " + exitCode1);
 		} catch (IOException e) {
@@ -167,7 +176,7 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 					keyStoreFilePath,
 					signedApkPath,
 					keyStoreCredentials,
-					new InsertActivityMainClass()).execute();
+					mainClass).execute();
 			System.out.println("ExitCode: " + exitCode2);
 		} catch (IOException e) {
 			System.out.println("Error: " + e);
@@ -182,7 +191,7 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 
 			exitCode3 = new InstallApk(signedSdkPlatformToolPath,
 					signedApkPath,
-					new InsertActivityMainClass())
+					mainClass)
 							.execute();
 			System.out.println("ExitCode: " + exitCode3);
 		} catch (IOException e) {
@@ -200,8 +209,30 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 
 	}
 
-	public static void main(String[] args) {
+	
+	
+	@Override
+	public void takingDataFromUserCallBack() {
+		try {
+			int exitStatus = new APKToolDecompile(apktoolJarPath,
+					decompileApkPath,
+					folderPathToStoreDecompileData, mainClass)
+							.execute();
 
+			System.out.println("ExitStatus: " + exitStatus);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public static void main(String[] args) {
+		mainClass = new InsertActivityMainClass();
+		getAllDataFromUser();
+
+	}
+	
+	private static void getAllDataFromUser() {
 		Scanner scanner = new Scanner(System.in);
 		
 		System.out.println("Enter APKTool Jar path: ");
@@ -213,11 +244,8 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 		System.out.println("Enter Folder Path To Store Decompile Data: ");
 		folderPathToStoreDecompileData = scanner.nextLine();
 		
-		System.out.println("Enter ManifestPath: ");
-		manifestPath = scanner.nextLine();
-		
-		System.out.println("Enter Image Source Path: ");
-		imageDrawableSourcePath = scanner.nextLine();
+		System.out.println("Enter Required Data Path: ");
+		requiredDataPath =  scanner.nextLine();
 		
 		System.out.println("Enter Image Destination Path: ");
 		imageDrawableDestinationPath = scanner.nextLine();
@@ -225,33 +253,14 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 		System.out.println("Enter Resource Id To Replace:  ");
 		replaceId = scanner.nextLine();
 		
-		System.out.println("Enter Public.xml Path: ");
-		xmlPath = scanner.nextLine();
-		
-		System.out.println("Enter Wrapper Activity Path: ");
-		activityPath = scanner.nextLine();
-		
-		pathToSearch = folderPathToStoreDecompileData;
-		
 		System.out.println("Enter Wrapper Activity Name: ");
 		wrapperActivityName = scanner.nextLine();
 		
 		System.out.println("Enter Zip Align SDK Build Tool Path: ");
 		zipAlignSdkBuildToolPath = scanner.nextLine();
 		
-		System.out.println("Enter Compiled APK Path: ");
-		compiledApkPath = scanner.nextLine();
-		
-		System.out.println("Enter Compiled Align APK Path: ");
-		compiledAlignedApkPath = scanner.nextLine();
-		
 		System.out.println("Enter SDK Platform Tool Path: ");
 		signedSdkPlatformToolPath = scanner.nextLine();
-		
-		System.out.println("Enter signed APK Path: ");
-		signedApkPath = scanner.nextLine();
-		
-		signSdkBuildToolPath = zipAlignSdkBuildToolPath;
 		
 		System.out.println("Enter Keystore File Path: ");
 		keyStoreFilePath = scanner.nextLine();
@@ -259,18 +268,34 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 		System.out.println("Enter KeyStore Credentials: ");
 		keyStoreCredentials = scanner.nextLine();
 		
+		mainClass.takingDataFromUserCallBack();
+	}
+	
+	
+	private void assignValuesToRemainingString() {
+		manifestPath = folderPathToStoreDecompileData+"\\\\AndroidManifest.xml";
+		imageDrawableSourcePath = requiredDataPath+"\\\\background.png";
 		
-		try {
-			int exitStatus = new APKToolDecompile(apktoolJarPath,
-					decompileApkPath,
-					folderPathToStoreDecompileData, new InsertActivityMainClass())
-							.execute();
-
-			System.out.println("ExitStatus: " + exitStatus);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
+		FileSearch fileSearchPublicXml = new FileSearch();
+		fileSearchPublicXml.searchDirectory(new File(folderPathToStoreDecompileData), "public.xml");
+		xmlPath = fileSearchPublicXml.getResult().get(0);
+		
+		FileSearch fileSearchWrapperActivity = new FileSearch();
+		fileSearchWrapperActivity.searchDirectory(new File(requiredDataPath), wrapperActivityName);
+		wrapperActivityPath = fileSearchWrapperActivity.getResult().get(0);
+		
+		pathToSearch = folderPathToStoreDecompileData;
+		
+		String apkName = decompileApkPath.substring((decompileApkPath.lastIndexOf("\\")+1), decompileApkPath.length());
+		compiledApkPath = folderPathToStoreDecompileData+"\\\\dist\\\\"+apkName;
+		
+		compiledAlignedApkPath = folderPathToStoreDecompileData+"\\\\dist\\\\"+"align-"+apkName;
+		
+		signedApkPath = compiledAlignedApkPath;
+		
+		signSdkBuildToolPath = zipAlignSdkBuildToolPath;
+		
+		mainClass.assignedValuesToAllStringCallBack();
 	}
 
 }

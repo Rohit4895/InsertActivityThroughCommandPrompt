@@ -35,7 +35,6 @@ public class DemoAlterMenifest {
 
 	private String menifestPath;
 	private String splashActivityName;
-	private String copyPath = "C:\\Users\\admin\\Desktop\\copiedmanifest.xml";
 	private List<Tag> allData;
 	private CallBacksForInsertActivity callBackmanifest;
 

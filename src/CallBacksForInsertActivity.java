@@ -9,4 +9,6 @@ public interface CallBacksForInsertActivity {
 	void zipAlign(int status);
 	void signedApk(int status);
 	void installedApk(int status);
+	void takingDataFromUserCallBack();
+	void assignedValuesToAllStringCallBack();
 }

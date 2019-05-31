@@ -11,10 +11,10 @@ public class CompileModifiedApp {
 	private String folderToCompile;
 	
 	public CompileModifiedApp(String pathApkTool,
-			String pathToFolder,
+			String folderToCompile,
 			CallBacksForInsertActivity callBackCompile) {
 		this.pathApkTool = pathApkTool;
-		this.folderToCompile = pathToFolder;
+		this.folderToCompile = folderToCompile;
 		this.callBackCompile = callBackCompile;
 	}
 
