@@ -28,7 +28,6 @@ public class InstallApk {
 			command = pathToRun + "/adb install " + signedApkPath;
 		} else {
 			command = pathToRun + "/adb install " + signedApkPath;
-
 		}
 
 		System.out.println("==============Start Installing ==================");
