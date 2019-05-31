@@ -34,7 +34,7 @@ public class DemoAlterMenifest {
 	}
 
 	private String menifestPath;
-	private String splashActivityName;
+	private String splashActivityName, splashActivityPath;
 	private List<Tag> allData;
 	private CallBacksForInsertActivity callBackmanifest;
 
@@ -90,7 +90,7 @@ public class DemoAlterMenifest {
 			      // transform and deliver content to client
 			      transformer.transform(xmlSource, result);
 			      
-			      callBackmanifest.manifestModification("success",splashActivityName);
+			      callBackmanifest.manifestModification("success",splashActivityName, splashActivityPath);
 			      
 			    }catch (TransformerFactoryConfigurationError factoryError) {
 			      System.err.println("Error creating " + "TransformerFactory");
@@ -212,9 +212,9 @@ public class DemoAlterMenifest {
 	
 	private String getSplashActivityName(Node launcherActivityNode) {
 		
-		String splash = ((Element)launcherActivityNode).getAttribute("android:name");
+		 splashActivityPath = ((Element)launcherActivityNode).getAttribute("android:name");
 		
-		String splashActivityName[] = splash.split("\\.");
+		String splashActivityName[] = splashActivityPath.split("\\.");
 		
 		return splashActivityName[(splashActivityName.length - 1)].trim() + ".smali";
 	}

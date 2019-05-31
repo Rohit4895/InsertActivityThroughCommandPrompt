@@ -23,7 +23,8 @@ public class ChangesInPublicClass {
 	private String filePath;
 	private String wrapperActivityName;
 	private String pathToSearch;
-	private String fileName;
+	private String splashActivityName;
+	private String splashActivityPath;
 	private String replaceId;
 	private Tag tagData;
 	private String wrapperActivityPath;
@@ -31,14 +32,16 @@ public class ChangesInPublicClass {
 	
 
 	public ChangesInPublicClass(String filePath, Tag allData, String replaceId,
-			String wrapperActivityPath, String pathToSearch, String fileName, String wrapperActivityName,
+			String wrapperActivityPath, String pathToSearch, String splashActivityName, String splashActivityPath,
+			String wrapperActivityName,
 			CallBacksForInsertActivity callBackInsertActivity) {
 		this.filePath = filePath;
 		this.tagData = allData;
 		this.replaceId = replaceId;
 		this.wrapperActivityPath = wrapperActivityPath;
 		this.pathToSearch = pathToSearch;
-		this.fileName = fileName;
+		this.splashActivityName = splashActivityName;
+		this.splashActivityPath = splashActivityPath;
 		this.wrapperActivityName = wrapperActivityName;
 		this.callBackInsertActivity = callBackInsertActivity;
 	}
@@ -105,7 +108,7 @@ public class ChangesInPublicClass {
 	
 		FileSearch fileSearch = new FileSearch();
 
-		fileSearch.searchDirectory(new File(pathToSearch), fileName);
+		fileSearch.searchDirectory(new File(pathToSearch), splashActivityName);
 
 		int count = fileSearch.getResult().size();
 		if (count == 0) {
@@ -113,9 +116,20 @@ public class ChangesInPublicClass {
 		} else {
 			System.out.println("\nFound " + count + " result!\n");
 			for (String matched : fileSearch.getResult()) {
-				System.out.println("Found : " + matched);
-				addWrapperActivity(matched, newId);
+				System.out.println("Path: from search: "+matched+" path from manifest: "+splashActivityPath);
+				if (matched.contains(splashActivityPath)) {
+					System.out.println("Right Path: ");
+					addWrapperActivity(matched, newId);
+				}else {
+					System.out.println("Wrong Path: ");	
+				}
+				
+				//System.out.println("data : " + matched +" length: "+fileSearch.getResult().size());
+				//System.out.println("Found : " + fileSearch.getResult().get(0));
+				
 			}
+				
+			
 		}
 		
 	}

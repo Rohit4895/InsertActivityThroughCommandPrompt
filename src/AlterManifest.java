@@ -139,7 +139,7 @@ public class AlterManifest {
 			// "+splashActivityName[(splashActivityName.length-1)]);
 
 			callBackmanifest.manifestModification("success",
-					splashActivityName[(splashActivityName.length - 1)].trim() + ".smali");
+					splashActivityName[(splashActivityName.length - 1)].trim() + ".smali",splashActivityPath);
 			return splashActivityPath;
 
 		} catch (Exception e) {

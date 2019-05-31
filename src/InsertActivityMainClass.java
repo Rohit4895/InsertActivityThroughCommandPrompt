@@ -10,6 +10,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,6 +46,7 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 	private static String keyStoreFilePath;
 	private static String keyStoreCredentials;
 	private static String splashActivityName;
+	private static String splashActivityPath;
 	private static String requiredDataPath;
 	private static InsertActivityMainClass mainClass;
 	
@@ -95,17 +99,47 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 	}
 
 	@Override
-	public void manifestModification(String status, String splashActivityName) {
+	public void manifestModification(String status, String splashActivityName, String splashActivityPath) {
+		
 		this.splashActivityName = splashActivityName;
+		this.splashActivityPath = splashActivityPath.replaceAll("\\.", "\\\\");
+		
 		System.out.println("Status: " + status+" on manifestModification Splash Name: "+this.splashActivityName);
 		if (status.isEmpty())
 			return;
 
+		String checkPath = imageDrawableDestinationPath.substring(0, imageDrawableDestinationPath.lastIndexOf("\\"));
+		
+		boolean fileExists = checkPathExists(checkPath);
+		
+		if(fileExists) {
+			 new InsertImageDrawable(imageDrawableSourcePath,
+					  imageDrawableDestinationPath, mainClass).execute();	
+		}else {
+			File theDir =  new File(checkPath);
+			
+			try{
+		        theDir.mkdir();
+		        new InsertImageDrawable(imageDrawableSourcePath,
+						  imageDrawableDestinationPath, mainClass).execute();
+		    } 
+		    catch(SecurityException se){
+		        System.out.println("Error: "+se.getMessage());
+		    }  
+		}
+		
+		
+	}
+	
+	private boolean checkPathExists(String checkPath) {
+		
+		Path path = Paths.get(checkPath);
 		 
-		  new InsertImageDrawable(imageDrawableSourcePath,
-		  imageDrawableDestinationPath, mainClass).execute();
-		 
-
+		if(Files.exists(path)) {
+			return true;
+		}
+		
+		return false;
 	}
 
 	@Override
@@ -120,7 +154,7 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 		tagPublic.add(new Attributes("name", "background"));
 
 		new ChangesInPublicClass(xmlPath, tagPublic, replaceId, wrapperActivityPath, pathToSearch, splashActivityName,
-				wrapperActivityName, mainClass).execute();
+				splashActivityPath, wrapperActivityName, mainClass).execute();
 
 	}
 
@@ -213,6 +247,9 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 	
 	@Override
 	public void takingDataFromUserCallBack() {
+		
+		System.out.println("Decompilation of APK is in progress...");
+		
 		try {
 			int exitStatus = new APKToolDecompile(apktoolJarPath,
 					decompileApkPath,
