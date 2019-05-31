@@ -28,7 +28,6 @@ public class InstallApk {
 			command = "cd "+ pathToRun + " && adb install " + signedApkPath;
 		} else {
 			command = "cd "+ pathToRun + " && adb install " + signedApkPath;
-
 		}
 
 		Process process;
