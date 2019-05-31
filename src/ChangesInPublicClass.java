@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.List;
+import java.util.Locale;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -134,10 +135,23 @@ public class ChangesInPublicClass {
 
 	private void addWrapperActivity(String matchedPath, String newId) {
 		try {
-			String getRightPath[] = matchedPath.split("\\\\");
+			
+			String getRightPath[] = null;
+			String osName = System.getProperty("os.name", "generic").toLowerCase(Locale.ENGLISH);
+			
+			if(osName.equalsIgnoreCase("window")) {
+				getRightPath = matchedPath.split("\\\\");
+			}else if(osName.equalsIgnoreCase("mac")) {
+				getRightPath = matchedPath.split("/");
+			}else {
+				getRightPath = matchedPath.split("/");
+			}
+			
 			String pathToWriteFile = "";
 			for (int i = 0; i < getRightPath.length - 1; i++) {
+				
 				pathToWriteFile += getRightPath[i] + "/";
+
 			}
 
 			pathToWriteFile += wrapperActivityName;

@@ -32,12 +32,16 @@ public class GenerateSignApk {
 			command = "cmd /c cd " + pathToRun + " && apksigner sign --ks " + keystoreFilePath + " "
 					+ keyStoreCredentials + " " + signedApkPath;
 		} else if (osName.contains("mac")) {
-			command = "./apksigner sign --ks/" + keystoreFilePath + " " + signedApkPath;
+			command = pathToRun + "/apksigner sign --ks " + keystoreFilePath + " "
+					+ keyStoreCredentials + " " + signedApkPath;
 		} else {
 			// Other systems
-			command = "./apksigner sign --ks/" + keystoreFilePath + " " + signedApkPath;
+			command = pathToRun + "/apksigner sign --ks " + keystoreFilePath + " "
+					+ keyStoreCredentials + " " + signedApkPath;
 		}
 
+		System.out.println("==============Start APKSign ==================");
+		System.out.println(command);
 		Process process;
 
 		process = rt.exec(command);

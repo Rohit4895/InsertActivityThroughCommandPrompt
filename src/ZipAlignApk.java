@@ -29,14 +29,16 @@ public class ZipAlignApk {
 		if (osName.contains("window")) {
 			command = "cmd /c cd " + pathToRun + " && zipalign -p 4 " + compiledApkPath + " " + newCompiledApkPath;
 		} else if (osName.contains("mac")) {
-			command = "./zipalign -p 4/" + compiledApkPath + " " + newCompiledApkPath;
+			command = pathToRun + "/zipalign -p 4 " + compiledApkPath + " " + newCompiledApkPath;
 		} else {
 			// Other systems
-			command = "./zipalign -p 4/" + compiledApkPath + " " + newCompiledApkPath;
+			command = pathToRun + "/zipalign -p 4 " + compiledApkPath + " " + newCompiledApkPath;
 		}
 
+		System.out.println("==============Start Zipalign ==================");
+		System.out.println(command);
+		
 		Process process;
-
 		process = rt.exec(command);
 
 		BufferedReader r = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -56,9 +58,12 @@ public class ZipAlignApk {
 		}
 
 		Scanner scannerErr = new Scanner(process.getErrorStream(), "UTF-8");
-		while (scannerErr.hasNext()) {
-			System.out.print("Error: " + scannerErr.next());
-		}
+		if(scannerErr.hasNext()) {
+			System.out.println("Error in Zipalign"); 
+			while (scannerErr.hasNext()) {
+				System.out.print(" " + scannerErr.next());
+			}
+		} 
 
 		callBackZipAlign.zipAlign(process.exitValue());
 		return process.exitValue();

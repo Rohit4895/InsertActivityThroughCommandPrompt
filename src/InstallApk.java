@@ -25,12 +25,15 @@ public class InstallApk {
 		if (osName.contains("window")) {
 			command = "cmd /c cd " + pathToRun + " && adb install " + signedApkPath;
 		} else if (osName.contains("mac")) {
-			command = "cd "+ pathToRun + " && adb install " + signedApkPath;
+			command = pathToRun + "/adb install " + signedApkPath;
 		} else {
-			command = "cd "+ pathToRun + " && adb install " + signedApkPath;
+			command = pathToRun + "/adb install " + signedApkPath;
 
 		}
 
+		System.out.println("==============Start Installing ==================");
+		System.out.println(command);
+		
 		Process process;
 
 		process = rt.exec(command);
@@ -52,8 +55,11 @@ public class InstallApk {
 		}
 
 		Scanner scannerErr = new Scanner(process.getErrorStream(), "UTF-8");
-		while (scannerErr.hasNext()) {
-			System.out.print("Error: " + scannerErr.next());
+		if(scannerErr.hasNext()) {
+			System.out.println("Error in InstallAPK"); 
+			while (scannerErr.hasNext()) {
+				System.out.print(" " + scannerErr.next());
+			}
 		}
 
 		callBackInstallApk.installedApk(process.exitValue());

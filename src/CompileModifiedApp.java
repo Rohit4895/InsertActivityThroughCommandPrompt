@@ -35,6 +35,9 @@ public int execute() throws IOException {
 		}
 		
 		
+		System.out.println("==============Start Compiling ==================");
+		System.out.println(command);
+		
 		Process process;
 		 
 		process = rt.exec(command);
@@ -44,19 +47,20 @@ public int execute() throws IOException {
         while (true) {
             line = r.readLine();
             if (line == null) { 
-            	System.out.println("line is null.");break; }
+            	System.out.println("line is null.");break; 
+            	}
             System.out.println("OutPut: "+line);
         }
 		
-		Scanner scanner = new Scanner(process.getInputStream(), "UTF-8");
-		while(scanner.hasNext()) {
-			
-		}
 		
 		Scanner scannerErr = new Scanner(process.getErrorStream(), "UTF-8");
-		while(scannerErr.hasNext()) {
-			System.out.println("Error: "+scannerErr.next());
+		if(scannerErr.hasNext()) {
+			System.out.println("========= Error in Compiling ============="); 
+			while(scannerErr.hasNext()) {
+				System.out.print(" "+scannerErr.next());
+			}
 		}
+
 		
 		callBackCompile.compileApk(process.exitValue());
 		return process.exitValue();

@@ -16,6 +16,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -102,13 +103,32 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 	public void manifestModification(String status, String splashActivityName, String splashActivityPath) {
 		
 		this.splashActivityName = splashActivityName;
-		this.splashActivityPath = splashActivityPath.replaceAll("\\.", "\\\\");
+
+		
+		String osName = System.getProperty("os.name", "generic").toLowerCase(Locale.ENGLISH);
+		if(osName.equalsIgnoreCase("window")) {
+			this.splashActivityPath = splashActivityPath.replaceAll("\\.", "\\\\");	
+		}else if(osName.equalsIgnoreCase("mac")) {
+			this.splashActivityPath = splashActivityPath.replaceAll("\\.", "/");
+		}else {
+			this.splashActivityPath = splashActivityPath.replaceAll("\\.", "/");
+		}
 		
 		System.out.println("Status: " + status+" on manifestModification Splash Name: "+this.splashActivityName);
 		if (status.isEmpty())
 			return;
 
-		String checkPath = imageDrawableDestinationPath.substring(0, imageDrawableDestinationPath.lastIndexOf("\\"));
+		String checkPath = "";
+		if(osName.equalsIgnoreCase("window")) {
+			imageDrawableDestinationPath.substring(0, imageDrawableDestinationPath.lastIndexOf("\\"));
+		}else if(osName.equalsIgnoreCase("mac")) {
+			imageDrawableDestinationPath.substring(0, imageDrawableDestinationPath.lastIndexOf("/"));
+		}else {
+			imageDrawableDestinationPath.substring(0, imageDrawableDestinationPath.lastIndexOf("/"));
+		}
+		
+		
+
 		
 		boolean fileExists = checkPathExists(checkPath);
 		
@@ -190,7 +210,7 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 					compiledAlignedApkPath,
 					mainClass)
 							.execute();
-			System.out.println("ExitCode: " + exitCode1);
+			System.out.println("compileApk ExitCode: " + exitCode1);
 		} catch (IOException e) {
 			System.out.println("Error: " + e);
 		}
@@ -270,48 +290,81 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 	}
 	
 	private static void getAllDataFromUser() {
-		Scanner scanner = new Scanner(System.in);
+//		Scanner scanner = new Scanner(System.in);
+//		
+//		System.out.println("Enter APKTool Jar path: ");
+//		apktoolJarPath = scanner.nextLine();
+//		
+//		System.out.println("Enter Decompile APK path: ");
+//		decompileApkPath = scanner.nextLine();
+//		
+//		System.out.println("Enter Folder Path To Store Decompile Data: ");
+//		folderPathToStoreDecompileData = scanner.nextLine();
+//		
+//		System.out.println("Enter Required Data Path: ");
+//		requiredDataPath =  scanner.nextLine();
+//		
+//		System.out.println("Enter Image Destination Path: ");
+//		imageDrawableDestinationPath = scanner.nextLine();
+//		
+//		System.out.println("Enter Resource Id To Replace:  ");
+//		replaceId = scanner.nextLine();
+//		
+//		System.out.println("Enter Wrapper Activity Name: ");
+//		wrapperActivityName = scanner.nextLine();
+//		
+//		System.out.println("Enter Zip Align SDK Build Tool Path: ");
+//		zipAlignSdkBuildToolPath = scanner.nextLine();
+//		
+//		System.out.println("Enter SDK Platform Tool Path: ");
+//		signedSdkPlatformToolPath = scanner.nextLine();
+//		
+//		System.out.println("Enter Keystore File Path: ");
+//		keyStoreFilePath = scanner.nextLine();
+//		
+//		System.out.println("Enter KeyStore Credentials: ");
+//		keyStoreCredentials = scanner.nextLine();
 		
-		System.out.println("Enter APKTool Jar path: ");
-		apktoolJarPath = scanner.nextLine();
-		
-		System.out.println("Enter Decompile APK path: ");
-		decompileApkPath = scanner.nextLine();
-		
-		System.out.println("Enter Folder Path To Store Decompile Data: ");
-		folderPathToStoreDecompileData = scanner.nextLine();
-		
-		System.out.println("Enter Required Data Path: ");
-		requiredDataPath =  scanner.nextLine();
-		
-		System.out.println("Enter Image Destination Path: ");
-		imageDrawableDestinationPath = scanner.nextLine();
-		
-		System.out.println("Enter Resource Id To Replace:  ");
-		replaceId = scanner.nextLine();
-		
-		System.out.println("Enter Wrapper Activity Name: ");
-		wrapperActivityName = scanner.nextLine();
-		
-		System.out.println("Enter Zip Align SDK Build Tool Path: ");
-		zipAlignSdkBuildToolPath = scanner.nextLine();
-		
-		System.out.println("Enter SDK Platform Tool Path: ");
-		signedSdkPlatformToolPath = scanner.nextLine();
-		
-		System.out.println("Enter Keystore File Path: ");
-		keyStoreFilePath = scanner.nextLine();
-		
-		System.out.println("Enter KeyStore Credentials: ");
-		keyStoreCredentials = scanner.nextLine();
-		
+		apktoolJarPath = "/Users/apple/Desktop/MarketplaceApp/Tool/MiniMilitia/apktool_2.4.0.jar";
+		decompileApkPath = "/Users/apple/Desktop/MarketplaceApp/Tool/MiniMilitia/MiniMilitia.apk";
+		folderPathToStoreDecompileData = "/Users/apple/Desktop/MarketplaceApp/Tool/MiniMilitia/Mini_Militia";
+		requiredDataPath = "/Users/apple/Desktop/MarketplaceApp/Tool/MiniMilitia/RequiredData";
+		imageDrawableDestinationPath = "/Users/apple/Desktop/MarketplaceApp/Tool/MiniMilitia/Mini_Militia/res/drawable/background.png";
+		replaceId= "0x7f020093";
+		wrapperActivityName = "MainActivity.smali";
+		zipAlignSdkBuildToolPath = "/Users/apple/Library/Android/sdk/build-tools/28.0.3";
+		signedSdkPlatformToolPath = "/Users/apple/Library/Android/sdk/platform-tools";
+		keyStoreFilePath = "/Users/apple/Desktop/MarketplaceApp/Tool/MiniMilitia/RequiredData/marketplace.jks";
+		keyStoreCredentials = "--ks-key-alias marketplace --ks-pass pass:123456 --key-pass pass:123456";
+				
 		mainClass.takingDataFromUserCallBack();
 	}
 	
 	
 	private void assignValuesToRemainingString() {
-		manifestPath = folderPathToStoreDecompileData+"\\\\AndroidManifest.xml";
-		imageDrawableSourcePath = requiredDataPath+"\\\\background.png";
+		
+		String osName = System.getProperty("os.name", "generic").toLowerCase(Locale.ENGLISH);
+		if(osName.equalsIgnoreCase("window")) {
+			manifestPath = folderPathToStoreDecompileData+"\\\\AndroidManifest.xml";
+			imageDrawableSourcePath = requiredDataPath+"\\\\background.png";			
+			String apkName = decompileApkPath.substring((decompileApkPath.lastIndexOf("\\")+1), decompileApkPath.length());
+			compiledApkPath = folderPathToStoreDecompileData+"\\\\dist\\\\"+apkName;
+			compiledAlignedApkPath = folderPathToStoreDecompileData+"\\\\dist\\\\"+"align-"+apkName;
+		}else if(osName.equalsIgnoreCase("mac")) {
+			manifestPath = folderPathToStoreDecompileData+"/AndroidManifest.xml";
+			imageDrawableSourcePath = requiredDataPath+"/background.png";
+			String apkName = decompileApkPath.substring((decompileApkPath.lastIndexOf("/")+1), decompileApkPath.length());
+			compiledApkPath = folderPathToStoreDecompileData+"/dist/"+apkName;
+			compiledAlignedApkPath = folderPathToStoreDecompileData+"/dist/"+"align-"+apkName;
+		}else {
+			manifestPath = folderPathToStoreDecompileData+"/AndroidManifest.xml";
+			imageDrawableSourcePath = requiredDataPath+"/background.png";			
+			String apkName = decompileApkPath.substring((decompileApkPath.lastIndexOf("/")+1), decompileApkPath.length());
+			compiledApkPath = folderPathToStoreDecompileData+"/dist/"+apkName;
+			compiledAlignedApkPath = folderPathToStoreDecompileData+"/dist/"+"align-"+apkName;
+		}
+ 		
+
 		
 		FileSearch fileSearchPublicXml = new FileSearch();
 		fileSearchPublicXml.searchDirectory(new File(folderPathToStoreDecompileData), "public.xml");
@@ -322,11 +375,6 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 		wrapperActivityPath = fileSearchWrapperActivity.getResult().get(0);
 		
 		pathToSearch = folderPathToStoreDecompileData;
-		
-		String apkName = decompileApkPath.substring((decompileApkPath.lastIndexOf("\\")+1), decompileApkPath.length());
-		compiledApkPath = folderPathToStoreDecompileData+"\\\\dist\\\\"+apkName;
-		
-		compiledAlignedApkPath = folderPathToStoreDecompileData+"\\\\dist\\\\"+"align-"+apkName;
 		
 		signedApkPath = compiledAlignedApkPath;
 		
