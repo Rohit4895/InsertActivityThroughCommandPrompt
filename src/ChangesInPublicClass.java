@@ -29,11 +29,9 @@ public class ChangesInPublicClass {
 	private Tag tagData;
 	private String wrapperActivityPath;
 	private CallBacksForInsertActivity callBackInsertActivity;
-	
 
-	public ChangesInPublicClass(String filePath, Tag allData, String replaceId,
-			String wrapperActivityPath, String pathToSearch, String splashActivityName, String splashActivityPath,
-			String wrapperActivityName,
+	public ChangesInPublicClass(String filePath, Tag allData, String replaceId, String wrapperActivityPath,
+			String pathToSearch, String splashActivityName, String splashActivityPath, String wrapperActivityName,
 			CallBacksForInsertActivity callBackInsertActivity) {
 		this.filePath = filePath;
 		this.tagData = allData;
@@ -69,14 +67,14 @@ public class ChangesInPublicClass {
 			for (int i = 0; i < tagList.getLength(); i++) {
 				Element element = (Element) tagList.item(i);
 				String drawableAttribute = element.getAttribute("type");
-				
-				if(drawableAttribute.equals("drawable")) {
-					
-				String hex = element.getAttribute("id");
-				int len = hex.length();
 
-				if (Integer.parseInt(hex.substring(2, len), 16) > maxId)
-					maxId = Integer.parseInt(hex.substring(2, len), 16);
+				if (drawableAttribute.equals("drawable")) {
+
+					String hex = element.getAttribute("id");
+					int len = hex.length();
+
+					if (Integer.parseInt(hex.substring(2, len), 16) > maxId)
+						maxId = Integer.parseInt(hex.substring(2, len), 16);
 				}
 			}
 
@@ -96,16 +94,16 @@ public class ChangesInPublicClass {
 			transformer.transform(domSource, result);
 
 			System.out.println("Done...");
-			
+
 			getCorrectFilePath(newId);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void getCorrectFilePath(String newId) {
-	
+
 		FileSearch fileSearch = new FileSearch();
 
 		fileSearch.searchDirectory(new File(pathToSearch), splashActivityName);
@@ -116,34 +114,34 @@ public class ChangesInPublicClass {
 		} else {
 			System.out.println("\nFound " + count + " result!\n");
 			for (String matched : fileSearch.getResult()) {
-				System.out.println("Path: from search: "+matched+" path from manifest: "+splashActivityPath);
+				System.out.println("Path: from search: " + matched + " path from manifest: " + splashActivityPath);
 				if (matched.contains(splashActivityPath)) {
 					System.out.println("Right Path: ");
 					addWrapperActivity(matched, newId);
-				}else {
-					System.out.println("Wrong Path: ");	
+				} else {
+					System.out.println("Wrong Path: ");
 				}
-				
-				//System.out.println("data : " + matched +" length: "+fileSearch.getResult().size());
-				//System.out.println("Found : " + fileSearch.getResult().get(0));
-				
+
+				// System.out.println("data : " + matched +" length:
+				// "+fileSearch.getResult().size());
+				// System.out.println("Found : " + fileSearch.getResult().get(0));
+
 			}
-				
-			
+
 		}
-		
+
 	}
-	
+
 	private void addWrapperActivity(String matchedPath, String newId) {
 		try {
 			String getRightPath[] = matchedPath.split("\\\\");
 			String pathToWriteFile = "";
-			for(int i=0 ; i< getRightPath.length-1; i++) {
-				pathToWriteFile+=getRightPath[i]+"/";
+			for (int i = 0; i < getRightPath.length - 1; i++) {
+				pathToWriteFile += getRightPath[i] + "/";
 			}
-			
-			pathToWriteFile+=wrapperActivityName;
-			
+
+			pathToWriteFile += wrapperActivityName;
+
 			File f1 = new File(wrapperActivityPath);
 			File f2 = new File(pathToWriteFile);
 			String[] words = null;
@@ -164,17 +162,17 @@ public class ChangesInPublicClass {
 					}
 				}
 
-				//System.out.println("S: " + s);
-				//System.out.println("Line: " + line);
+				// System.out.println("S: " + s);
+				// System.out.println("Line: " + line);
 
 				bw.write(line + "\n");
 			}
 
 			br.close();
 			bw.close();
-			
+
 			callBackInsertActivity.insertionOfWrapperActivity("success");
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

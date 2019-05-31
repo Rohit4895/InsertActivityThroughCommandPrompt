@@ -43,7 +43,6 @@ public class DemoAlterMenifest {
 		this.allData = allData;
 		this.callBackmanifest = callBackmanifest;
 	}
-	
 
 	/*
 	 * 
@@ -65,86 +64,86 @@ public class DemoAlterMenifest {
 		Node launcherActivityNode = getLauncherActivityNode(doc);
 		splashActivityName = getSplashActivityName(launcherActivityNode);
 
-		if (launcherActivityNode != null) { 
+		if (launcherActivityNode != null) {
 
-			 addNewActivityWithChildNodes(doc, launcherActivityNode);			 
-			 removeAllChilds(doc, launcherActivityNode);
-			 addNewIntentFilterToOldActivity(doc, launcherActivityNode);
-			 
-			  try {
+			addNewActivityWithChildNodes(doc, launcherActivityNode);
+			removeAllChilds(doc, launcherActivityNode);
+			addNewIntentFilterToOldActivity(doc, launcherActivityNode);
 
-			      // create DOMSource for source XML document
-			      Source xmlSource = new DOMSource(doc);
+			try {
 
-			      // create StreamResult for transformation result
-			      Result result = new StreamResult(new FileOutputStream(menifestPath));
+				// create DOMSource for source XML document
+				Source xmlSource = new DOMSource(doc);
 
-			      // create TransformerFactory
-			      TransformerFactory transformerFactory = TransformerFactory.newInstance();
+				// create StreamResult for transformation result
+				Result result = new StreamResult(new FileOutputStream(menifestPath));
 
-			      // create Transformer for transformation
-			      Transformer transformer = transformerFactory.newTransformer();
+				// create TransformerFactory
+				TransformerFactory transformerFactory = TransformerFactory.newInstance();
 
-			      transformer.setOutputProperty("indent", "yes");
+				// create Transformer for transformation
+				Transformer transformer = transformerFactory.newTransformer();
 
-			      // transform and deliver content to client
-			      transformer.transform(xmlSource, result);
-			      
-			      callBackmanifest.manifestModification("success",splashActivityName, splashActivityPath);
-			      
-			    }catch (TransformerFactoryConfigurationError factoryError) {
-			      System.err.println("Error creating " + "TransformerFactory");
-			      factoryError.printStackTrace();
-			    }catch (TransformerException transformerError) {
-			      System.err.println("Error transforming document");
-			      transformerError.printStackTrace();
-			    }    catch (IOException ioException) {
-			      ioException.printStackTrace();
-			    }
-			  
+				transformer.setOutputProperty("indent", "yes");
+
+				// transform and deliver content to client
+				transformer.transform(xmlSource, result);
+
+				callBackmanifest.manifestModification("success", splashActivityName, splashActivityPath);
+
+			} catch (TransformerFactoryConfigurationError factoryError) {
+				System.err.println("Error creating " + "TransformerFactory");
+				factoryError.printStackTrace();
+			} catch (TransformerException transformerError) {
+				System.err.println("Error transforming document");
+				transformerError.printStackTrace();
+			} catch (IOException ioException) {
+				ioException.printStackTrace();
+			}
+
 		}
 	}
-	
+
 	private void removeAllChilds(Document doc, Node launcherActivityNode) {
-		
+
 		NodeList nodeList = launcherActivityNode.getChildNodes();
-		System.out.println("Before launcherActivityNode ChildNodes: "+nodeList.getLength());
-		for(int count = 0; count < launcherActivityNode.getChildNodes().getLength(); count++) {
+		System.out.println("Before launcherActivityNode ChildNodes: " + nodeList.getLength());
+		for (int count = 0; count < launcherActivityNode.getChildNodes().getLength(); count++) {
 			Node node = nodeList.item(count);
-			System.out.println("getNodeName: "+node.getNodeName());
+			System.out.println("getNodeName: " + node.getNodeName());
 		}
-		
-		
-		while(nodeList.getLength() > 0) {
-			Node node = nodeList.item(0);			
+
+		while (nodeList.getLength() > 0) {
+			Node node = nodeList.item(0);
 			node.getParentNode().removeChild(node);
-		} 
+		}
 		launcherActivityNode.normalize();
-		
-		System.out.println("After launcherActivityNode ChildNodes: "+launcherActivityNode.getChildNodes().getLength());
-		for(int count = 0; count < launcherActivityNode.getChildNodes().getLength(); count++) {
+
+		System.out
+				.println("After launcherActivityNode ChildNodes: " + launcherActivityNode.getChildNodes().getLength());
+		for (int count = 0; count < launcherActivityNode.getChildNodes().getLength(); count++) {
 			Node node = nodeList.item(count);
-			System.out.println("getNodeName: "+node.getNodeName());
+			System.out.println("getNodeName: " + node.getNodeName());
 		}
 
 	}
 
 	private void addNewActivityWithChildNodes(Document doc, Node launcherActivityNode) {
-		
+
 		Element newActivity = doc.createElement("activity");
 		newActivity.setAttribute("android:name", "com.demo.MainActivity");
-		 
-		 for(int count = 0; count < launcherActivityNode.getChildNodes().getLength(); count ++) {
-			 Node cloneNode = launcherActivityNode.getChildNodes().item(count).cloneNode(true);
-			 newActivity.appendChild(cloneNode);
-		 }
-		 doc.adoptNode(newActivity);			 
-		 doc.getElementsByTagName("application").item(0).appendChild(newActivity);
-		
+
+		for (int count = 0; count < launcherActivityNode.getChildNodes().getLength(); count++) {
+			Node cloneNode = launcherActivityNode.getChildNodes().item(count).cloneNode(true);
+			newActivity.appendChild(cloneNode);
+		}
+		doc.adoptNode(newActivity);
+		doc.getElementsByTagName("application").item(0).appendChild(newActivity);
+
 	}
-	
+
 	private void addNewIntentFilterToOldActivity(Document doc, Node launcherActivityNode) {
-		
+
 		for (int i = 0; i < allData.size(); i++) {
 
 			Tag tagsPojo = allData.get(i);
@@ -186,9 +185,9 @@ public class DemoAlterMenifest {
 
 			launcherActivityNode.appendChild(element);
 		}
-		
-		
+
 	}
+
 	private Element getLauncherActivityNode(Document doc) {
 		// Step 1
 		NodeList launcher = doc.getElementsByTagName("category");
@@ -209,13 +208,13 @@ public class DemoAlterMenifest {
 		}
 		return null;
 	}
-	
+
 	private String getSplashActivityName(Node launcherActivityNode) {
-		
-		 splashActivityPath = ((Element)launcherActivityNode).getAttribute("android:name");
-		
+
+		splashActivityPath = ((Element) launcherActivityNode).getAttribute("android:name");
+
 		String splashActivityName[] = splashActivityPath.split("\\.");
-		
+
 		return splashActivityName[(splashActivityName.length - 1)].trim() + ".smali";
 	}
 }
