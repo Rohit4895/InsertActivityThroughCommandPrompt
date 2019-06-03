@@ -287,7 +287,9 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 		keyStoreCredentials = "--ks-key-alias marketplace --ks-pass pass:123456 --key-pass pass:123456";
 		
 		System.out.println("Enter APK Path: ");
-		pathOfApk = scanner.nextLine(); //"E:\\roh\\Mini_Militia.apk";		
+		pathOfApk = scanner.nextLine(); //"E:\\roh\\Mini_Militia.apk";	
+		
+		//String initialPathToStore = pathOfApk.substring(0,(pathOfApk.lastIndexOf("\\")+1));
 		
 		System.out.println("Enter replaceId Path: ");
 		replaceId = scanner.nextLine();//"0x7f020093";
@@ -303,10 +305,10 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 			keyStoreFilePath = System.getProperty("user.dir")+"\\src\\tools\\marketplace.jks";
 			imageDrawableSourcePath = System.getProperty("user.dir")+"\\src\\tools\\background.png";
 			wrapperActivityName = System.getProperty("user.dir")+"\\src\\tools\\MainActivity.smali";
-			int indexOfLastPathSeperator = pathOfApk.lastIndexOf("\\");
+			//int indexOfLastPathSeperator = pathOfApk.lastIndexOf("\\");
 			int indexOfLastDot = pathOfApk.lastIndexOf(".");
-			folderPathToStoreDecompileData = "E:\\roh\\"+pathOfApk.substring((indexOfLastPathSeperator+1), indexOfLastDot).trim();
-			System.out.println("SubString: "+pathOfApk.substring((indexOfLastPathSeperator+1), indexOfLastDot));
+			folderPathToStoreDecompileData = pathOfApk.substring(0, indexOfLastDot).trim();
+			System.out.println("SubString: "+pathOfApk.substring(0, indexOfLastDot));
 			imageDrawableDestinationPath = folderPathToStoreDecompileData+"\\res\\drawable\\background.png";
 			zipAlignSdkBuildToolPath = sdkPath+"\\build-tools\\28.0.3";
 			signedSdkPlatformToolPath = sdkPath+"\\platform-tools";
@@ -317,9 +319,9 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 			keyStoreFilePath = System.getProperty("user.dir")+"/src/tools/marketplace.jks";
 			imageDrawableSourcePath = System.getProperty("user.dir")+"/src/tools/background.png";
 			wrapperActivityName = System.getProperty("user.dir")+"/src/tools/MainActivity.smali";
-			int indexOfLastPathSeperator = pathOfApk.lastIndexOf("/");
+			//int indexOfLastPathSeperator = pathOfApk.lastIndexOf("/");
 			int indexOfLastDot = pathOfApk.lastIndexOf(".");
-			folderPathToStoreDecompileData = "/Users/apple/"+pathOfApk.substring((indexOfLastPathSeperator+1), indexOfLastDot).trim();
+			folderPathToStoreDecompileData = pathOfApk.substring(0, indexOfLastDot).trim();
 			imageDrawableDestinationPath = "folderPathToStoreDecompileData/res/drawable/background.png";
 			zipAlignSdkBuildToolPath = sdkPath+"/build-tools/28.0.3";
 			signedSdkPlatformToolPath = sdkPath+"/platform-tools";
@@ -330,9 +332,9 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 			keyStoreFilePath = System.getProperty("user.dir")+"/src/tools/marketplace.jks";
 			imageDrawableSourcePath = System.getProperty("user.dir")+"/src/tools/background.png";
 			wrapperActivityName = System.getProperty("user.dir")+"/src/tools/MainActivity.smali";
-			int indexOfLastPathSeperator = pathOfApk.lastIndexOf("/");
+			//int indexOfLastPathSeperator = pathOfApk.lastIndexOf("/");
 			int indexOfLastDot = pathOfApk.lastIndexOf(".");
-			folderPathToStoreDecompileData = "/Users/apple/"+pathOfApk.substring((indexOfLastPathSeperator+1), indexOfLastDot).trim();
+			folderPathToStoreDecompileData = pathOfApk.substring(0, indexOfLastDot).trim();
 			imageDrawableDestinationPath = "folderPathToStoreDecompileData/res/drawable/background.png";
 			zipAlignSdkBuildToolPath = sdkPath+"/build-tools/28.0.3";
 			signedSdkPlatformToolPath = sdkPath+"/platform-tools";
