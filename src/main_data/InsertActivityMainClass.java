@@ -49,14 +49,12 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 	private static String keyStoreCredentials;
 	private static String splashActivityName;
 	private static String splashActivityPath;
-	private static String requiredDataPath;
 	private static InsertActivityMainClass mainClass;
 	private static String sdkPath;
 	
-	
 	@Override
 	public void assignedValuesToAllStringCallBack() {
-		
+
 		List<Tag> finalList = new ArrayList<Tag>();
 
 		Tag tagIntent = new Tag();
@@ -74,8 +72,9 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 
 		finalList.add(tagIntent);
 
-	    //new AlterManifest(manifestPath, finalList, new InsertActivityMainClass()).execute();
-		
+		// new AlterManifest(manifestPath, finalList, new
+		// InsertActivityMainClass()).execute();
+
 		try {
 			new DemoAlterMenifest(manifestPath, finalList, mainClass).execute();
 		} catch (ParserConfigurationException e) {
@@ -88,86 +87,77 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	@Override
 	public void decompile(int status) {
-		System.out.println("Status: " + status+" on decompile");
+		System.out.println("Status: " + status + " on decompile");
 		if (status == 1)
 			return;
-		
+
 		mainClass.assignValuesToRemainingString();
 
 	}
 
 	@Override
 	public void manifestModification(String status, String splashActivityName, String splashActivityPath) {
-		
+
 		this.splashActivityName = splashActivityName;
 
-		
 		String osName = System.getProperty("os.name", "generic").toLowerCase(Locale.ENGLISH);
-		if(osName.equalsIgnoreCase("window")) {
-			this.splashActivityPath = splashActivityPath.replaceAll("\\.", "\\\\");	
-		}else if(osName.equalsIgnoreCase("mac")) {
+		if (osName.contains("window")) {
+			this.splashActivityPath = splashActivityPath.replaceAll("\\.", "\\\\");
+		} else if (osName.contains("mac")) {
 			this.splashActivityPath = splashActivityPath.replaceAll("\\.", "/");
-		}else {
+		} else {
 			this.splashActivityPath = splashActivityPath.replaceAll("\\.", "/");
 		}
-		
-		System.out.println("Status: " + status+" on manifestModification Splash Name: "+this.splashActivityName);
+
+		System.out.println("Status: " + status + " on manifestModification Splash Name: " + this.splashActivityName);
 		if (status.isEmpty())
 			return;
 
 		String checkPath = "";
-		
-		if(osName.equalsIgnoreCase("window")) {
+		if (osName.contains("window")) {
 			checkPath = imageDrawableDestinationPath.substring(0, imageDrawableDestinationPath.lastIndexOf("\\"));
-		}else if(osName.equalsIgnoreCase("mac")) {
+		} else if (osName.contains("mac")) {
 			checkPath = imageDrawableDestinationPath.substring(0, imageDrawableDestinationPath.lastIndexOf("/"));
-		}else {
+		} else {
 			checkPath = imageDrawableDestinationPath.substring(0, imageDrawableDestinationPath.lastIndexOf("/"));
 		}
-		
-		
 
-		
 		boolean fileExists = checkPathExists(checkPath);
-		
-		if(fileExists) {
-			 new InsertImageDrawable(imageDrawableSourcePath,
-					  imageDrawableDestinationPath, mainClass).execute();	
-		}else {
-			File theDir =  new File(checkPath);
-			
-			try{
-		        theDir.mkdir();
-		        new InsertImageDrawable(imageDrawableSourcePath,
-						  imageDrawableDestinationPath, mainClass).execute();
-		    } 
-		    catch(SecurityException se){
-		        System.out.println("Error: "+se.getMessage());
-		    }  
+
+		if (fileExists) {
+			new InsertImageDrawable(imageDrawableSourcePath, imageDrawableDestinationPath, mainClass).execute();
+		} else {
+			File theDir = new File(checkPath);
+
+			try {
+				theDir.mkdir();
+				new InsertImageDrawable(imageDrawableSourcePath, imageDrawableDestinationPath, mainClass).execute();
+			} catch (SecurityException se) {
+				System.out.println("Error: " + se.getMessage());
+			}
 		}
-		
-		
+
 	}
-	
+
 	private boolean checkPathExists(String checkPath) {
-		
+
 		Path path = Paths.get(checkPath);
-		 
-		if(Files.exists(path)) {
+
+		if (Files.exists(path)) {
 			return true;
 		}
-		
+
 		return false;
 	}
 
 	@Override
 	public void insertionOfImage(String status) {
-		System.out.println("Status: " + status+" on insertionOfImage");
+		System.out.println("Status: " + status + " on insertionOfImage");
 		if (!status.equalsIgnoreCase("success"))
 			return;
 
@@ -183,15 +173,13 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 
 	@Override
 	public void insertionOfWrapperActivity(String status) {
-		System.out.println("Status: " + status+" on insertionOfWrapperActivity");
+		System.out.println("Status: " + status + " on insertionOfWrapperActivity");
 		if (!status.equalsIgnoreCase("success"))
 			return;
 		int exitCode = 0;
 		try {
 
-			exitCode = new CompileModifiedApp(apktoolJarPath,
-					folderPathToStoreDecompileData,
-					mainClass).execute();
+			exitCode = new CompileModifiedApp(apktoolJarPath, folderPathToStoreDecompileData, mainClass).execute();
 			System.out.println("ExitCode: " + exitCode);
 		} catch (IOException e) {
 
@@ -201,18 +189,15 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 
 	@Override
 	public void compileApk(int status) {
-		System.out.println("Status: " + status+" on compileApk");
-		if(status == 1)
+		System.out.println("Status: " + status + " on compileApk");
+		if (status == 1)
 			return;
 
 		int exitCode1 = 0;
 		try {
-			
-			exitCode1 = new ZipAlignApk(zipAlignSdkBuildToolPath,
-					compiledApkPath,
-					compiledAlignedApkPath,
-					mainClass)
-							.execute();
+
+			exitCode1 = new ZipAlignApk(zipAlignSdkBuildToolPath, compiledApkPath, compiledAlignedApkPath, mainClass)
+					.execute();
 			System.out.println("compileApk ExitCode: " + exitCode1);
 		} catch (IOException e) {
 			System.out.println("Error: " + e);
@@ -222,17 +207,14 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 
 	@Override
 	public void zipAlign(int status) {
-		System.out.println("Status: " + status+" on zipAlign");
+		System.out.println("Status: " + status + " on zipAlign");
 		if (status == 1)
 			return;
 
 		int exitCode2 = 0;
 		try {
 
-			exitCode2 = new GenerateSignApk(signSdkBuildToolPath,
-					keyStoreFilePath,
-					signedApkPath,
-					keyStoreCredentials,
+			exitCode2 = new GenerateSignApk(signSdkBuildToolPath, keyStoreFilePath, signedApkPath, keyStoreCredentials,
 					mainClass).execute();
 			System.out.println("ExitCode: " + exitCode2);
 		} catch (IOException e) {
@@ -242,14 +224,11 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 
 	@Override
 	public void signedApk(int status) {
-		System.out.println("Status: " + status+" on signedApk");
+		System.out.println("Status: " + status + " on signedApk");
 		int exitCode3 = 0;
 		try {
 
-			exitCode3 = new InstallApk(signedSdkPlatformToolPath,
-					signedApkPath,
-					mainClass)
-							.execute();
+			exitCode3 = new InstallApk(signedSdkPlatformToolPath, signedApkPath, mainClass).execute();
 			System.out.println("ExitCode: " + exitCode3);
 		} catch (IOException e) {
 			System.out.println("Error: " + e);
@@ -259,18 +238,16 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 
 	@Override
 	public void installedApk(int status) {
-		System.out.println("Status: " + status+" on installedApk");
+		System.out.println("Status: " + status + " on installedApk");
 		if (status == 1)
 			return;
 		System.out.println("Activity inserted successfully...");
 
 	}
 
-	
-	
 	@Override
 	public void takingDataFromUserCallBack() {
-		
+
 		System.out.println("Decompilation of APK is in progress...");
 		System.out.println(" apktoolJarPath: "+apktoolJarPath+" pathOfApk: "+pathOfApk+" folderPathToStoreDecompileData: "+folderPathToStoreDecompileData);
 		
@@ -282,34 +259,35 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	public static void main(String[] args) {
 		mainClass = new InsertActivityMainClass();
 		getAllDataFromUser();
 
 	}
-	
+
 	private static void getAllDataFromUser() {
+
 		Scanner scanner = new Scanner(System.in);
 		
-		apktoolJarPath = "E:\\roh\\apktool_2.4.0.jar";
-		keyStoreFilePath = "src\\required_data\\marketplace.jks";
-		imageDrawableSourcePath = "src\\required_data\\background.png";
-		wrapperActivityName = "src\\required_data\\MainActivity.smali";
+		apktoolJarPath = "C:\\Users\\admin\\eclipse-workspace\\InsertActivityThroughCommandPrompt\\src\\tools\\apktool2.4.0.jar";//"E:\\roh\\apktool_2.4.0.jar";
+		keyStoreFilePath = "C:\\Users\\admin\\eclipse-workspace\\InsertActivityThroughCommandPrompt\\src\\tools\\marketplace.jks";
+		imageDrawableSourcePath = "C:\\Users\\admin\\eclipse-workspace\\InsertActivityThroughCommandPrompt\\src\\tools\\background.png";
+		wrapperActivityName = "C:\\Users\\admin\\eclipse-workspace\\InsertActivityThroughCommandPrompt\\src\\tools\\MainActivity.smali";
 		
-	//	System.out.println("Enter Decompile APK path: ");
-		//pathOfApk = scanner.nextLine();
-		pathOfApk = "E:\\roh\\Mini_Militia.apk";
-		//System.out.println("Enter Resource Id To Replace:  ");
-		//replaceId = scanner.nextLine();
-		replaceId = "0x7f020093";
-		//System.out.println("Enter SDK Path: ");
-		//sdkPath = scanner.nextLine();
-		sdkPath = "C:\\Users\\admin\\AppData\\Local\\Android\\Sdk";
 		
 		keyStoreCredentials = "--ks-key-alias marketplace --ks-pass pass:123456 --key-pass pass:123456";
+		
+		System.out.println("Enter APK Path: ");
+		pathOfApk = scanner.nextLine(); //"E:\\roh\\Mini_Militia.apk";		
+		
+		System.out.println("Enter replaceId Path: ");
+		replaceId = scanner.nextLine();//"0x7f020093";
+		
+		System.out.println("Enter SDK Path: ");
+		sdkPath = scanner.nextLine(); //"C:\\Users\\admin\\AppData\\Local\\Android\\Sdk";
 		
 		String osName = System.getProperty("os.name", "generic").toLowerCase(Locale.ENGLISH);
 		
@@ -319,7 +297,7 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 			int indexOfLastDot = pathOfApk.lastIndexOf(".");
 			folderPathToStoreDecompileData = "E:\\roh\\"+pathOfApk.substring((indexOfLastPathSeperator+1), indexOfLastDot).trim();
 			System.out.println("SubString: "+pathOfApk.substring((indexOfLastPathSeperator+1), indexOfLastDot));
-			imageDrawableDestinationPath = "folderPathToStoreDecompileData\\res\\drawable\\background.png";
+			imageDrawableDestinationPath = folderPathToStoreDecompileData+"\\res\\drawable\\background.png";
 			zipAlignSdkBuildToolPath = sdkPath+"\\build-tools\\28.0.3";
 			signedSdkPlatformToolPath = sdkPath+"\\platform-tools";
 
@@ -346,30 +324,18 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 		boolean fileExists = mainClass.checkPathExists(folderPathToStoreDecompileData);
 		
 		if(fileExists) {
-			 System.out.println("File Exists");
-		}else {
 			File theDir =  new File(folderPathToStoreDecompileData);
-			
-			try{
-		        theDir.mkdir();
-		        System.out.println("File Created...");
-		    } 
-		    catch(SecurityException se){
-		        System.out.println("Error: "+se.getMessage());
-		    }  
-		}
-		
-				
-		mainClass.takingDataFromUserCallBack();
+			theDir.delete();
+			 System.out.println("File Exists");
+		}	
+		mainClass.takingDataFromUserCallBack(); 
 	}
-	
-	
+
 	private void assignValuesToRemainingString() {
-		
+
 		String osName = System.getProperty("os.name", "generic").toLowerCase(Locale.ENGLISH);
 		System.out.println("OS Name: "+osName);
 		if(osName.contains("window")) {
-			apktoolJarPath = requiredDataPath+"\\\\apktool_2.4.0.jar";
 			manifestPath = folderPathToStoreDecompileData+"\\\\AndroidManifest.xml";			
 			String apkName = pathOfApk.substring((pathOfApk.lastIndexOf("\\")+1), pathOfApk.length());
 			compiledApkPath = folderPathToStoreDecompileData+"\\\\dist\\\\"+apkName;
@@ -389,10 +355,9 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 			compiledApkPath = folderPathToStoreDecompileData+"/dist/"+apkName;
 			compiledAlignedApkPath = folderPathToStoreDecompileData+"/dist/"+"align-"+apkName;
 			
-		}
- 		
 
-		
+		}
+
 		FileSearch fileSearchPublicXml = new FileSearch();
 		fileSearchPublicXml.searchDirectory(new File(folderPathToStoreDecompileData), "public.xml");
 		xmlPath = fileSearchPublicXml.getResult().get(0);
@@ -404,12 +369,13 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 		 * fileSearchWrapperActivity.getResult().get(0);
 		 */
 		
+ 
 		pathToSearch = folderPathToStoreDecompileData;
-		
+
 		signedApkPath = compiledAlignedApkPath;
-		
+
 		signSdkBuildToolPath = zipAlignSdkBuildToolPath;
-		
+
 		mainClass.assignedValuesToAllStringCallBack();
 	}
 

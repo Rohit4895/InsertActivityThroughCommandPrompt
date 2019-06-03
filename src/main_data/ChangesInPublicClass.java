@@ -37,7 +37,6 @@ public class ChangesInPublicClass {
 		this.filePath = filePath;
 		this.tagData = allData;
 		this.replaceId = replaceId;
-		this.wrapperActivityName = wrapperActivityName;
 		this.pathToSearch = pathToSearch;
 		this.splashActivityName = splashActivityName;
 		this.splashActivityPath = splashActivityPath;
@@ -154,7 +153,7 @@ public class ChangesInPublicClass {
 
 			}
 
-			pathToWriteFile += wrapperActivityName;
+			pathToWriteFile += wrapperActivityName.substring(wrapperActivityName.lastIndexOf("\\")+1, wrapperActivityName.length());
 
 			File f1 = new File(wrapperActivityName);
 			File f2 = new File(pathToWriteFile);
