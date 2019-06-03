@@ -322,7 +322,7 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 			//int indexOfLastPathSeperator = pathOfApk.lastIndexOf("/");
 			int indexOfLastDot = pathOfApk.lastIndexOf(".");
 			folderPathToStoreDecompileData = pathOfApk.substring(0, indexOfLastDot).trim();
-			imageDrawableDestinationPath = "folderPathToStoreDecompileData/res/drawable/background.png";
+			imageDrawableDestinationPath = folderPathToStoreDecompileData+"/res/drawable/background.png";
 			zipAlignSdkBuildToolPath = sdkPath+"/build-tools/28.0.3";
 			signedSdkPlatformToolPath = sdkPath+"/platform-tools";
 
@@ -335,7 +335,7 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 			//int indexOfLastPathSeperator = pathOfApk.lastIndexOf("/");
 			int indexOfLastDot = pathOfApk.lastIndexOf(".");
 			folderPathToStoreDecompileData = pathOfApk.substring(0, indexOfLastDot).trim();
-			imageDrawableDestinationPath = "folderPathToStoreDecompileData/res/drawable/background.png";
+			imageDrawableDestinationPath = folderPathToStoreDecompileData+"/res/drawable/background.png";
 			zipAlignSdkBuildToolPath = sdkPath+"/build-tools/28.0.3";
 			signedSdkPlatformToolPath = sdkPath+"/platform-tools";
 		}

@@ -153,7 +153,12 @@ public class ChangesInPublicClass {
 
 			}
 
-			pathToWriteFile += wrapperActivityName.substring(wrapperActivityName.lastIndexOf("\\")+1, wrapperActivityName.length());
+			if(osName.contains("window")) {
+				pathToWriteFile += wrapperActivityName.substring(wrapperActivityName.lastIndexOf("\\")+1, wrapperActivityName.length());	
+			}else {
+				pathToWriteFile += wrapperActivityName.substring(wrapperActivityName.lastIndexOf("/")+1, wrapperActivityName.length());
+			}
+			
 
 			File f1 = new File(wrapperActivityName);
 			File f2 = new File(pathToWriteFile);
