@@ -272,10 +272,16 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 
 		Scanner scanner = new Scanner(System.in);
 		
-		apktoolJarPath = "C:\\Users\\admin\\eclipse-workspace\\InsertActivityThroughCommandPrompt\\src\\tools\\apktool2.4.0.jar";//"E:\\roh\\apktool_2.4.0.jar";
-		keyStoreFilePath = "C:\\Users\\admin\\eclipse-workspace\\InsertActivityThroughCommandPrompt\\src\\tools\\marketplace.jks";
-		imageDrawableSourcePath = "C:\\Users\\admin\\eclipse-workspace\\InsertActivityThroughCommandPrompt\\src\\tools\\background.png";
-		wrapperActivityName = "C:\\Users\\admin\\eclipse-workspace\\InsertActivityThroughCommandPrompt\\src\\tools\\MainActivity.smali";
+		/*
+		 * apktoolJarPath =
+		 * "C:\\Users\\admin\\eclipse-workspace\\InsertActivityThroughCommandPrompt\\src\\tools\\apktool2.4.0.jar"
+		 * ;//"E:\\roh\\apktool_2.4.0.jar"; keyStoreFilePath =
+		 * "C:\\Users\\admin\\eclipse-workspace\\InsertActivityThroughCommandPrompt\\src\\tools\\marketplace.jks";
+		 * imageDrawableSourcePath =
+		 * "C:\\Users\\admin\\eclipse-workspace\\InsertActivityThroughCommandPrompt\\src\\tools\\background.png";
+		 * wrapperActivityName =
+		 * "C:\\Users\\admin\\eclipse-workspace\\InsertActivityThroughCommandPrompt\\src\\tools\\MainActivity.smali";
+		 */
 		
 		
 		keyStoreCredentials = "--ks-key-alias marketplace --ks-pass pass:123456 --key-pass pass:123456";
@@ -293,6 +299,10 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 		
 		if(osName.contains("window")) {
 			System.out.println("In Window");
+			apktoolJarPath = System.getProperty("user.dir")+"\\src\\tools\\apktool2.4.0.jar";//"E:\\roh\\apktool_2.4.0.jar";
+			keyStoreFilePath = System.getProperty("user.dir")+"\\src\\tools\\marketplace.jks";
+			imageDrawableSourcePath = System.getProperty("user.dir")+"\\src\\tools\\background.png";
+			wrapperActivityName = System.getProperty("user.dir")+"\\src\\tools\\MainActivity.smali";
 			int indexOfLastPathSeperator = pathOfApk.lastIndexOf("\\");
 			int indexOfLastDot = pathOfApk.lastIndexOf(".");
 			folderPathToStoreDecompileData = "E:\\roh\\"+pathOfApk.substring((indexOfLastPathSeperator+1), indexOfLastDot).trim();
@@ -303,6 +313,10 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 
 		}else if(osName.contains("mac"))  {
 			System.out.println("In Mac");
+			apktoolJarPath = System.getProperty("user.dir")+"/src/tools/apktool2.4.0.jar";//"E:\\roh\\apktool_2.4.0.jar";
+			keyStoreFilePath = System.getProperty("user.dir")+"/src/tools/marketplace.jks";
+			imageDrawableSourcePath = System.getProperty("user.dir")+"/src/tools/background.png";
+			wrapperActivityName = System.getProperty("user.dir")+"/src/tools/MainActivity.smali";
 			int indexOfLastPathSeperator = pathOfApk.lastIndexOf("/");
 			int indexOfLastDot = pathOfApk.lastIndexOf(".");
 			folderPathToStoreDecompileData = "/Users/apple/"+pathOfApk.substring((indexOfLastPathSeperator+1), indexOfLastDot).trim();
@@ -312,6 +326,10 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 
 		}else {
 			System.out.println("In Else");
+			apktoolJarPath = System.getProperty("user.dir")+"/src/tools/apktool2.4.0.jar";//"E:\\roh\\apktool_2.4.0.jar";
+			keyStoreFilePath = System.getProperty("user.dir")+"/src/tools/marketplace.jks";
+			imageDrawableSourcePath = System.getProperty("user.dir")+"/src/tools/background.png";
+			wrapperActivityName = System.getProperty("user.dir")+"/src/tools/MainActivity.smali";
 			int indexOfLastPathSeperator = pathOfApk.lastIndexOf("/");
 			int indexOfLastDot = pathOfApk.lastIndexOf(".");
 			folderPathToStoreDecompileData = "/Users/apple/"+pathOfApk.substring((indexOfLastPathSeperator+1), indexOfLastDot).trim();
