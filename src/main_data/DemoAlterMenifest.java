@@ -23,17 +23,6 @@ import org.xml.sax.SAXException;
 
 public class DemoAlterMenifest {
 
-	public static void main(String z[]) {
-
-		// C:\Users\admin\Desktop\AndroidManifest.xml
-		/*
-		 * DemoAlterMenifest demoMenif = new
-		 * DemoAlterMenifest("C:\\Users\\admin\\Desktop\\AndroidManifest.xml"); try {
-		 * demoMenif.execute(); } catch (ParserConfigurationException | SAXException |
-		 * IOException e) { e.printStackTrace(); }
-		 */
-	}
-
 	private String menifestPath;
 	private String splashActivityName, splashActivityPath;
 	private List<Tag> allData;
@@ -132,7 +121,7 @@ public class DemoAlterMenifest {
 	private void addNewActivityWithChildNodes(Document doc, Node launcherActivityNode) {
 
 		Element newActivity = doc.createElement("activity");
-		newActivity.setAttribute("android:name", "com.demo.MainActivity");
+		newActivity.setAttribute("android:name", "com.example.retrofitresponse.MainActivity");
 
 		for (int count = 0; count < launcherActivityNode.getChildNodes().getLength(); count++) {
 			Node cloneNode = launcherActivityNode.getChildNodes().item(count).cloneNode(true);
