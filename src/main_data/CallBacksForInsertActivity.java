@@ -9,6 +9,8 @@ public interface CallBacksForInsertActivity {
 	void insertionOfImage(String status);
 
 	void insertionOfWrapperActivity(String status);
+	
+	void insertionOfOtherRequiredDataCallback(String status);
 
 	void compileApk(int status);
 

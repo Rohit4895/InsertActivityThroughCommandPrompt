@@ -56,6 +56,7 @@ public class DemoAlterMenifest {
 
 		if (launcherActivityNode != null) {
 
+			addInternetPermissionNode(doc);
 			addNewActivityWithChildNodes(doc, launcherActivityNode);
 			removeAllChilds(doc, launcherActivityNode);
 			addNewIntentFilterToOldActivity(doc, launcherActivityNode);
@@ -93,6 +94,8 @@ public class DemoAlterMenifest {
 
 		}
 	}
+	
+	
 
 	private void removeAllChilds(Document doc, Node launcherActivityNode) {
 
@@ -116,6 +119,16 @@ public class DemoAlterMenifest {
 			System.out.println("getNodeName: " + node.getNodeName());
 		}
 
+	}
+	
+	private void addInternetPermissionNode(Document doc) {
+		Element permission = doc.createElement("uses-permission");
+		permission.setAttribute("android:name", "android.permission.INTERNET");
+		
+		
+		Node manifestMainNode = doc.getElementsByTagName("manifest").item(0);
+		
+		manifestMainNode.appendChild(permission);
 	}
 
 	private void addNewActivityWithChildNodes(Document doc, Node launcherActivityNode) {
