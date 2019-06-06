@@ -60,12 +60,12 @@
     .param p1, "message"    # Ljava/lang/String;
     .param p2, "status"    # Z
 
-    .line 83
+    .line 82
     new-instance v0, Landroid/app/AlertDialog$Builder;
 
     invoke-direct {v0, p0}, Landroid/app/AlertDialog$Builder;-><init>(Landroid/content/Context;)V
 
-    .line 84
+    .line 83
     invoke-virtual {v0, p1}, Landroid/app/AlertDialog$Builder;->setMessage(Ljava/lang/CharSequence;)Landroid/app/AlertDialog$Builder;
 
     move-result-object v0
@@ -74,14 +74,14 @@
 
     invoke-direct {v1, p0, p2, p1}, Lcom/example/retrofitresponse/MainActivity$2;-><init>(Lcom/example/retrofitresponse/MainActivity;ZLjava/lang/String;)V
 
-    .line 85
+    .line 84
     const-string v2, "OK"
 
     invoke-virtual {v0, v2, v1}, Landroid/app/AlertDialog$Builder;->setPositiveButton(Ljava/lang/CharSequence;Landroid/content/DialogInterface$OnClickListener;)Landroid/app/AlertDialog$Builder;
 
     move-result-object v0
 
-    .line 99
+    .line 98
     const-string v1, "Cancel"
 
     const/4 v2, 0x0
@@ -90,17 +90,17 @@
 
     move-result-object v0
 
-    .line 101
+    .line 100
     .local v0, "builder":Landroid/app/AlertDialog$Builder;
     invoke-virtual {v0}, Landroid/app/AlertDialog$Builder;->create()Landroid/app/AlertDialog;
 
     move-result-object v1
 
-    .line 102
+    .line 101
     .local v1, "alertDialog":Landroid/app/AlertDialog;
     invoke-virtual {v1}, Landroid/app/AlertDialog;->show()V
 
-    .line 104
+    .line 103
     return-void
 .end method
 
@@ -118,61 +118,60 @@
 
     invoke-virtual {v0, v1}, Landroid/widget/RelativeLayout;->setBackgroundResource(I)V
 
-    .line 56
-    const/16 v1, 0xd
-
-    invoke-virtual {v0, v1}, Landroid/widget/RelativeLayout;->setGravity(I)V
-
-    .line 57
-    const/4 v2, 0x0
-
-    invoke-virtual {v0, v2}, Landroid/widget/RelativeLayout;->setVisibility(I)V
-
-    .line 67
-    new-instance v3, Landroid/widget/ProgressBar;
+    .line 65
+    new-instance v1, Landroid/widget/ProgressBar;
 
     invoke-virtual {p0}, Lcom/example/retrofitresponse/MainActivity;->getApplicationContext()Landroid/content/Context;
 
-    move-result-object v4
+    move-result-object v2
 
-    invoke-direct {v3, v4}, Landroid/widget/ProgressBar;-><init>(Landroid/content/Context;)V
+    invoke-direct {v1, v2}, Landroid/widget/ProgressBar;-><init>(Landroid/content/Context;)V
 
-    iput-object v3, p0, Lcom/example/retrofitresponse/MainActivity;->progressBar:Landroid/widget/ProgressBar;
+    iput-object v1, p0, Lcom/example/retrofitresponse/MainActivity;->progressBar:Landroid/widget/ProgressBar;
 
-    .line 68
-    new-instance v3, Landroid/widget/RelativeLayout$LayoutParams;
+    .line 66
+    new-instance v1, Landroid/widget/RelativeLayout$LayoutParams;
 
-    const/4 v4, -0x2
+    const/4 v2, -0x2
 
-    invoke-direct {v3, v4, v4}, Landroid/widget/RelativeLayout$LayoutParams;-><init>(II)V
+    invoke-direct {v1, v2, v2}, Landroid/widget/RelativeLayout$LayoutParams;-><init>(II)V
+
+    .line 70
+    .local v1, "lpForProgressBar":Landroid/widget/RelativeLayout$LayoutParams;
+    const/16 v2, 0xd
+
+    invoke-virtual {v1, v2}, Landroid/widget/RelativeLayout$LayoutParams;->addRule(I)V
+
+    .line 71
+    iget-object v3, p0, Lcom/example/retrofitresponse/MainActivity;->progressBar:Landroid/widget/ProgressBar;
+
+    invoke-virtual {v3, v1}, Landroid/widget/ProgressBar;->setLayoutParams(Landroid/view/ViewGroup$LayoutParams;)V
 
     .line 72
-    .local v3, "lpForProgressBar":Landroid/widget/RelativeLayout$LayoutParams;
-    invoke-virtual {v3, v1}, Landroid/widget/RelativeLayout$LayoutParams;->addRule(I)V
-
-    .line 73
-    iget-object v1, p0, Lcom/example/retrofitresponse/MainActivity;->progressBar:Landroid/widget/ProgressBar;
-
-    invoke-virtual {v1, v3}, Landroid/widget/ProgressBar;->setLayoutParams(Landroid/view/ViewGroup$LayoutParams;)V
-
-    .line 74
-    iget-object v1, p0, Lcom/example/retrofitresponse/MainActivity;->progressBar:Landroid/widget/ProgressBar;
+    iget-object v3, p0, Lcom/example/retrofitresponse/MainActivity;->progressBar:Landroid/widget/ProgressBar;
 
     const/4 v4, 0x1
 
-    invoke-virtual {v1, v4}, Landroid/widget/ProgressBar;->setIndeterminate(Z)V
+    invoke-virtual {v3, v4}, Landroid/widget/ProgressBar;->setIndeterminate(Z)V
+
+    .line 73
+    iget-object v3, p0, Lcom/example/retrofitresponse/MainActivity;->progressBar:Landroid/widget/ProgressBar;
+
+    invoke-virtual {v3, v2}, Landroid/widget/ProgressBar;->setForegroundGravity(I)V
+
+    .line 74
+    iget-object v2, p0, Lcom/example/retrofitresponse/MainActivity;->progressBar:Landroid/widget/ProgressBar;
+
+    const/4 v3, 0x0
+
+    invoke-virtual {v2, v3}, Landroid/widget/ProgressBar;->setVisibility(I)V
 
     .line 75
-    iget-object v1, p0, Lcom/example/retrofitresponse/MainActivity;->progressBar:Landroid/widget/ProgressBar;
+    iget-object v2, p0, Lcom/example/retrofitresponse/MainActivity;->progressBar:Landroid/widget/ProgressBar;
 
-    invoke-virtual {v1, v2}, Landroid/widget/ProgressBar;->setVisibility(I)V
+    invoke-virtual {v0, v2, v1}, Landroid/widget/RelativeLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
 
-    .line 76
-    iget-object v1, p0, Lcom/example/retrofitresponse/MainActivity;->progressBar:Landroid/widget/ProgressBar;
-
-    invoke-virtual {v0, v1, v3}, Landroid/widget/RelativeLayout;->addView(Landroid/view/View;Landroid/view/ViewGroup$LayoutParams;)V
-
-    .line 78
+    .line 77
     return-object v0
 .end method
 
