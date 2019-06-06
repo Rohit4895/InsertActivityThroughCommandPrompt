@@ -30,10 +30,10 @@ public class InsertionOfOtherRequiredData {
 	}
 	
 	public void execute() {
-		getCorrectFilePath();
+		getCorrectFilePathOfMainActivity();
 	}
 	
-	private void getCorrectFilePath() {
+	private void getCorrectFilePathOfMainActivity() {
 		
 		String osName = System.getProperty("os.name", "generic").toLowerCase(Locale.ENGLISH);
 		
@@ -71,6 +71,7 @@ public class InsertionOfOtherRequiredData {
 	}
 	
 	private void insertAllFiles(String matchedFilePath) {
+		String status = "success";
 
 		for(Map.Entry<String, String> entry : dataPaths.entrySet()) {
 			
@@ -139,6 +140,7 @@ public class InsertionOfOtherRequiredData {
 					new FileUtils().copyDirectory(srcDir, destDir);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
+					status = "fail";
 					e.printStackTrace();
 				}
 				
@@ -147,7 +149,7 @@ public class InsertionOfOtherRequiredData {
 		}
 		
 		System.out.println("Done...");
-		callbackInsertionOfData.insertionOfOtherRequiredDataCallback("success");
+		callbackInsertionOfData.insertionOfOtherRequiredDataCallback(status);
 	}
 	
 	private static boolean checkPathExists(String checkPath) {

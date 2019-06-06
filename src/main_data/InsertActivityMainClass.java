@@ -274,7 +274,7 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 		System.out.println("Status: " + status + " on insertionOfWrapperActivity");
 		if (!status.equalsIgnoreCase("success"))
 			return;
-		int exitCode = 0;
+		
 		
 		Map<String, String> dataPaths = new HashMap<String, String>();
 		dataPaths.put("C:\\Users\\admin\\eclipse-workspace\\InsertActivityThroughCommandPrompt\\src\\tools\\MainActivity$1.smali", "file");
@@ -286,16 +286,16 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 		
 		dataPaths.put("C:\\Users\\admin\\eclipse-workspace\\InsertActivityThroughCommandPrompt\\src\\tools\\okhttp3",
 				//"C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Manual\\smali\\okhttp3"
-				"E:\\roh\\Clash_Of_Titans\\smali\\okhttp3");
+				folderPathToStoreDecompileData+"\\smali\\okhttp3");
 		dataPaths.put("C:\\Users\\admin\\eclipse-workspace\\InsertActivityThroughCommandPrompt\\src\\tools\\retrofit2",
 				//"C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Manual\\smali\\retrofit2",
-				"E:\\roh\\Clash_Of_Titans\\smali\\retrofit2");
+				folderPathToStoreDecompileData+"\\smali\\retrofit2");
 		dataPaths.put("C:\\Users\\admin\\eclipse-workspace\\InsertActivityThroughCommandPrompt\\src\\tools\\okio",
 				//"C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Manual\\smali\\retrofit2",
-				"E:\\roh\\Clash_Of_Titans\\smali\\okio");
+				folderPathToStoreDecompileData+"\\smali\\okio");
 		dataPaths.put("C:\\Users\\admin\\eclipse-workspace\\InsertActivityThroughCommandPrompt\\src\\tools\\google",
 				//"C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Manual\\smali\\com\\google",
-				"E:\\roh\\Clash_Of_Titans\\smali\\com\\google");
+				folderPathToStoreDecompileData+"\\smali\\com\\google");
 		
 		new InsertionOfOtherRequiredData(dataPaths, splashActivityPath, folderPathToStoreDecompileData, mainClass).execute();
 		//try {
