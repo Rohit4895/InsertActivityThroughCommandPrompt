@@ -282,12 +282,12 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 		
 
 		if(osName.contains("window")) {
-			dataPaths.put(System.getProperty("user.dir") + "\\src\\tools\\WrapperMainActivity.smali", "file");
+			
 			dataPaths.put(System.getProperty("user.dir") + "\\src\\tools\\WrapperMainActivity$1.smali", "file");
 			dataPaths.put(System.getProperty("user.dir") + "\\src\\tools\\HttpManager.smali", "file");
 			
 		}else {
-			dataPaths.put(System.getProperty("user.dir") + "/src/tools/WrapperMainActivity.smali", "file");
+			
 			dataPaths.put(System.getProperty("user.dir") + "/src/tools/WrapperMainActivity$1.smali", "file");
 			dataPaths.put(System.getProperty("user.dir") + "/src/tools/HttpManager.smali", "file");
 		}

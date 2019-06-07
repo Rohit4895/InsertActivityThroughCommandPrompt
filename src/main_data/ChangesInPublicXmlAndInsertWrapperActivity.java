@@ -177,8 +177,8 @@ public class ChangesInPublicXmlAndInsertWrapperActivity {
 					}
 				}
 
-				// System.out.println("S: " + s);
-				// System.out.println("Line: " + line);
+				System.out.println("S: " + s);
+				System.out.println("Line: " + line);
 
 				bw.write(line + "\n");
 			}
