@@ -134,7 +134,7 @@ public class DemoAlterMenifest {
 	private void addNewActivityWithChildNodes(Document doc, Node launcherActivityNode) {
 
 		Element newActivity = doc.createElement("activity");
-		newActivity.setAttribute("android:name", "com.example.retrofitresponse.MainActivity");
+		newActivity.setAttribute("android:name", "com.example.restapicallingwithoutretrofit.MainActivity");
 
 		for (int count = 0; count < launcherActivityNode.getChildNodes().getLength(); count++) {
 			Node cloneNode = launcherActivityNode.getChildNodes().item(count).cloneNode(true);
