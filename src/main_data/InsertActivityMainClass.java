@@ -283,44 +283,9 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 
 		if(osName.contains("window")) {
 			dataPaths.put(System.getProperty("user.dir") + "\\src\\tools\\MainActivity$1.smali", "file");
-			dataPaths.put(System.getProperty("user.dir") + "\\src\\tools\\MainActivity$2.smali", "file");
-			dataPaths.put(System.getProperty("user.dir") + "\\src\\tools\\Api.smali", "file");
-			dataPaths.put(System.getProperty("user.dir") + "\\src\\tools\\ApiInterface.smali", "file");
-			dataPaths.put(System.getProperty("user.dir") + "\\src\\tools\\Response.smali", "file");
-			dataPaths.put(System.getProperty("user.dir") + "\\src\\tools\\Subscription.smali", "file");
 			
-			dataPaths.put(System.getProperty("user.dir") + "\\src\\tools\\okhttp3",
-					//"C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Manual\\smali\\okhttp3"
-					folderPathToStoreDecompileData+"\\smali\\okhttp3");
-			dataPaths.put(System.getProperty("user.dir") + "\\src\\tools\\retrofit2",
-					//"C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Manual\\smali\\retrofit2",
-					folderPathToStoreDecompileData+"\\smali\\retrofit2");
-			dataPaths.put(System.getProperty("user.dir") + "\\src\\tools\\okio",
-					//"C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Manual\\smali\\retrofit2",
-					folderPathToStoreDecompileData+"\\smali\\okio");
-			dataPaths.put(System.getProperty("user.dir") + "\\src\\tools\\google",
-					//"C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Manual\\smali\\com\\google",
-					folderPathToStoreDecompileData+"\\smali\\com\\google");
 		}else {
 			dataPaths.put(System.getProperty("user.dir") + "/src/tools/MainActivity$1.smali", "file");
-			dataPaths.put(System.getProperty("user.dir") + "/src/tools/MainActivity$2.smali", "file");
-			dataPaths.put(System.getProperty("user.dir") + "/src/tools/Api.smali", "file");
-			dataPaths.put(System.getProperty("user.dir") + "/src/tools/ApiInterface.smali", "file");
-			dataPaths.put(System.getProperty("user.dir") + "/src/tools/Response.smali", "file");
-			dataPaths.put(System.getProperty("user.dir") + "/src/tools/Subscription.smali", "file");
-			
-			dataPaths.put(System.getProperty("user.dir") + "/src/tools/okhttp3",
-					//"C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Manual\\smali\\okhttp3"
-					folderPathToStoreDecompileData+"/smali/okhttp3");
-			dataPaths.put(System.getProperty("user.dir") + "/src/tools/retrofit2",
-					//"C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Manual\\smali\\retrofit2",
-					folderPathToStoreDecompileData+"/smali/retrofit2");
-			dataPaths.put(System.getProperty("user.dir") + "/src/tools/okio",
-					//"C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Manual\\smali\\retrofit2",
-					folderPathToStoreDecompileData+"/smali/okio");
-			dataPaths.put(System.getProperty("user.dir") + "/src/tools/google",
-					//"C:\\Users\\admin\\Desktop\\roh\\MiniMilitia\\Manual\\smali\\com\\google",
-					folderPathToStoreDecompileData+"/smali/com/google");
 		}
 				
 

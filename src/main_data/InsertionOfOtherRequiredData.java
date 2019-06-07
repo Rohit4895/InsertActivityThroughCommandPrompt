@@ -143,8 +143,6 @@ public class InsertionOfOtherRequiredData {
 					status = "fail";
 					e.printStackTrace();
 				}
-				
-				
 			}
 		}
 		
