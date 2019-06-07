@@ -1,11 +1,11 @@
-.class Lcom/example/restapicallingwithoutretrofit/MainActivity$1;
+.class Lcom/example/restapicallingwithoutretrofit/WrapperMainActivity$1;
 .super Landroid/os/AsyncTask;
-.source "MainActivity.java"
+.source "WrapperMainActivity.java"
 
 
 # annotations
 .annotation system Ldalvik/annotation/EnclosingMethod;
-    value = Lcom/example/restapicallingwithoutretrofit/MainActivity;->onCreate(Landroid/os/Bundle;)V
+    value = Lcom/example/restapicallingwithoutretrofit/WrapperMainActivity;->onCreate(Landroid/os/Bundle;)V
 .end annotation
 
 .annotation system Ldalvik/annotation/InnerClass;
@@ -25,16 +25,16 @@
 
 
 # instance fields
-.field final synthetic this$0:Lcom/example/restapicallingwithoutretrofit/MainActivity;
+.field final synthetic this$0:Lcom/example/restapicallingwithoutretrofit/WrapperMainActivity;
 
 
 # direct methods
-.method constructor <init>(Lcom/example/restapicallingwithoutretrofit/MainActivity;)V
+.method constructor <init>(Lcom/example/restapicallingwithoutretrofit/WrapperMainActivity;)V
     .locals 0
-    .param p1, "this$0"    # Lcom/example/restapicallingwithoutretrofit/MainActivity;
+    .param p1, "this$0"    # Lcom/example/restapicallingwithoutretrofit/WrapperMainActivity;
 
-    .line 38
-    iput-object p1, p0, Lcom/example/restapicallingwithoutretrofit/MainActivity$1;->this$0:Lcom/example/restapicallingwithoutretrofit/MainActivity;
+    .line 30
+    iput-object p1, p0, Lcom/example/restapicallingwithoutretrofit/WrapperMainActivity$1;->this$0:Lcom/example/restapicallingwithoutretrofit/WrapperMainActivity;
 
     invoke-direct {p0}, Landroid/os/AsyncTask;-><init>()V
 
@@ -46,10 +46,10 @@
 .method protected bridge synthetic doInBackground([Ljava/lang/Object;)Ljava/lang/Object;
     .locals 0
 
-    .line 38
+    .line 30
     check-cast p1, [Ljava/lang/Void;
 
-    invoke-virtual {p0, p1}, Lcom/example/restapicallingwithoutretrofit/MainActivity$1;->doInBackground([Ljava/lang/Void;)Ljava/lang/String;
+    invoke-virtual {p0, p1}, Lcom/example/restapicallingwithoutretrofit/WrapperMainActivity$1;->doInBackground([Ljava/lang/Void;)Ljava/lang/String;
 
     move-result-object p1
 
@@ -60,7 +60,7 @@
     .locals 1
     .param p1, "voids"    # [Ljava/lang/Void;
 
-    .line 86
+    .line 34
     const-string v0, "http://demo5248544.mockable.io/getallusers"
 
     invoke-static {v0}, Lcom/example/restapicallingwithoutretrofit/HttpManager;->getData(Ljava/lang/String;)Ljava/lang/String;
@@ -73,10 +73,10 @@
 .method protected bridge synthetic onPostExecute(Ljava/lang/Object;)V
     .locals 0
 
-    .line 38
+    .line 30
     check-cast p1, Ljava/lang/String;
 
-    invoke-virtual {p0, p1}, Lcom/example/restapicallingwithoutretrofit/MainActivity$1;->onPostExecute(Ljava/lang/String;)V
+    invoke-virtual {p0, p1}, Lcom/example/restapicallingwithoutretrofit/WrapperMainActivity$1;->onPostExecute(Ljava/lang/String;)V
 
     return-void
 .end method
@@ -85,10 +85,10 @@
     .locals 6
     .param p1, "status"    # Ljava/lang/String;
 
-    .line 92
+    .line 40
     invoke-super {p0, p1}, Landroid/os/AsyncTask;->onPostExecute(Ljava/lang/Object;)V
 
-    .line 93
+    .line 41
     const-string v0, "fail"
 
     invoke-virtual {p1, v0}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
@@ -105,23 +105,23 @@
 
     if-eqz v0, :cond_0
 
-    .line 95
-    iget-object v0, p0, Lcom/example/restapicallingwithoutretrofit/MainActivity$1;->this$0:Lcom/example/restapicallingwithoutretrofit/MainActivity;
+    .line 43
+    iget-object v0, p0, Lcom/example/restapicallingwithoutretrofit/WrapperMainActivity$1;->this$0:Lcom/example/restapicallingwithoutretrofit/WrapperMainActivity;
 
-    invoke-static {v0}, Lcom/example/restapicallingwithoutretrofit/MainActivity;->access$000(Lcom/example/restapicallingwithoutretrofit/MainActivity;)Landroid/widget/ProgressBar;
+    invoke-static {v0}, Lcom/example/restapicallingwithoutretrofit/WrapperMainActivity;->access$000(Lcom/example/restapicallingwithoutretrofit/WrapperMainActivity;)Landroid/widget/ProgressBar;
 
     move-result-object v0
 
     invoke-virtual {v0, v3}, Landroid/widget/ProgressBar;->setVisibility(I)V
 
-    .line 96
-    iget-object v0, p0, Lcom/example/restapicallingwithoutretrofit/MainActivity$1;->this$0:Lcom/example/restapicallingwithoutretrofit/MainActivity;
+    .line 44
+    iget-object v0, p0, Lcom/example/restapicallingwithoutretrofit/WrapperMainActivity$1;->this$0:Lcom/example/restapicallingwithoutretrofit/WrapperMainActivity;
 
     const-string v3, "Failed Response...\nSomething went wrong..."
 
-    invoke-static {v0, v3, v2}, Lcom/example/restapicallingwithoutretrofit/MainActivity;->access$100(Lcom/example/restapicallingwithoutretrofit/MainActivity;Ljava/lang/String;Z)V
+    invoke-static {v0, v3, v2}, Lcom/example/restapicallingwithoutretrofit/WrapperMainActivity;->access$100(Lcom/example/restapicallingwithoutretrofit/WrapperMainActivity;Ljava/lang/String;Z)V
 
-    .line 98
+    .line 46
     new-instance v0, Ljava/lang/StringBuilder;
 
     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
@@ -138,7 +138,7 @@
 
     goto/16 :goto_1
 
-    .line 101
+    .line 49
     :cond_0
     const-string v0, "exception"
 
@@ -148,23 +148,23 @@
 
     if-eqz v0, :cond_1
 
-    .line 102
-    iget-object v0, p0, Lcom/example/restapicallingwithoutretrofit/MainActivity$1;->this$0:Lcom/example/restapicallingwithoutretrofit/MainActivity;
+    .line 50
+    iget-object v0, p0, Lcom/example/restapicallingwithoutretrofit/WrapperMainActivity$1;->this$0:Lcom/example/restapicallingwithoutretrofit/WrapperMainActivity;
 
-    invoke-static {v0}, Lcom/example/restapicallingwithoutretrofit/MainActivity;->access$000(Lcom/example/restapicallingwithoutretrofit/MainActivity;)Landroid/widget/ProgressBar;
+    invoke-static {v0}, Lcom/example/restapicallingwithoutretrofit/WrapperMainActivity;->access$000(Lcom/example/restapicallingwithoutretrofit/WrapperMainActivity;)Landroid/widget/ProgressBar;
 
     move-result-object v0
 
     invoke-virtual {v0, v3}, Landroid/widget/ProgressBar;->setVisibility(I)V
 
-    .line 103
-    iget-object v0, p0, Lcom/example/restapicallingwithoutretrofit/MainActivity$1;->this$0:Lcom/example/restapicallingwithoutretrofit/MainActivity;
+    .line 51
+    iget-object v0, p0, Lcom/example/restapicallingwithoutretrofit/WrapperMainActivity$1;->this$0:Lcom/example/restapicallingwithoutretrofit/WrapperMainActivity;
 
     const-string v1, "Exception Occurred..."
 
-    invoke-static {v0, v1, v2}, Lcom/example/restapicallingwithoutretrofit/MainActivity;->access$100(Lcom/example/restapicallingwithoutretrofit/MainActivity;Ljava/lang/String;Z)V
+    invoke-static {v0, v1, v2}, Lcom/example/restapicallingwithoutretrofit/WrapperMainActivity;->access$100(Lcom/example/restapicallingwithoutretrofit/WrapperMainActivity;Ljava/lang/String;Z)V
 
-    .line 104
+    .line 52
     new-instance v0, Ljava/lang/StringBuilder;
 
     invoke-direct {v0}, Ljava/lang/StringBuilder;-><init>()V
@@ -183,23 +183,23 @@
 
     goto :goto_1
 
-    .line 106
+    .line 54
     :cond_1
-    iget-object v0, p0, Lcom/example/restapicallingwithoutretrofit/MainActivity$1;->this$0:Lcom/example/restapicallingwithoutretrofit/MainActivity;
+    iget-object v0, p0, Lcom/example/restapicallingwithoutretrofit/WrapperMainActivity$1;->this$0:Lcom/example/restapicallingwithoutretrofit/WrapperMainActivity;
 
-    invoke-static {v0}, Lcom/example/restapicallingwithoutretrofit/MainActivity;->access$000(Lcom/example/restapicallingwithoutretrofit/MainActivity;)Landroid/widget/ProgressBar;
+    invoke-static {v0}, Lcom/example/restapicallingwithoutretrofit/WrapperMainActivity;->access$000(Lcom/example/restapicallingwithoutretrofit/WrapperMainActivity;)Landroid/widget/ProgressBar;
 
     move-result-object v0
 
     invoke-virtual {v0, v3}, Landroid/widget/ProgressBar;->setVisibility(I)V
 
-    .line 109
+    .line 57
     :try_start_0
     new-instance v0, Lorg/json/JSONObject;
 
     invoke-direct {v0, p1}, Lorg/json/JSONObject;-><init>(Ljava/lang/String;)V
 
-    .line 111
+    .line 59
     .local v0, "jsonObject":Lorg/json/JSONObject;
     const-string v2, "subscription"
 
@@ -213,28 +213,28 @@
 
     move-result v2
 
-    .line 112
+    .line 60
     .local v2, "validStatus":Z
     if-eqz v2, :cond_2
 
-    .line 113
-    iget-object v3, p0, Lcom/example/restapicallingwithoutretrofit/MainActivity$1;->this$0:Lcom/example/restapicallingwithoutretrofit/MainActivity;
+    .line 61
+    iget-object v3, p0, Lcom/example/restapicallingwithoutretrofit/WrapperMainActivity$1;->this$0:Lcom/example/restapicallingwithoutretrofit/WrapperMainActivity;
 
     const-string v5, "Data validated..."
 
-    invoke-static {v3, v5, v2}, Lcom/example/restapicallingwithoutretrofit/MainActivity;->access$100(Lcom/example/restapicallingwithoutretrofit/MainActivity;Ljava/lang/String;Z)V
+    invoke-static {v3, v5, v2}, Lcom/example/restapicallingwithoutretrofit/WrapperMainActivity;->access$100(Lcom/example/restapicallingwithoutretrofit/WrapperMainActivity;Ljava/lang/String;Z)V
 
     goto :goto_0
 
-    .line 115
+    .line 63
     :cond_2
-    iget-object v3, p0, Lcom/example/restapicallingwithoutretrofit/MainActivity$1;->this$0:Lcom/example/restapicallingwithoutretrofit/MainActivity;
+    iget-object v3, p0, Lcom/example/restapicallingwithoutretrofit/WrapperMainActivity$1;->this$0:Lcom/example/restapicallingwithoutretrofit/WrapperMainActivity;
 
     const-string v5, "Invalid Data..."
 
-    invoke-static {v3, v5, v2}, Lcom/example/restapicallingwithoutretrofit/MainActivity;->access$100(Lcom/example/restapicallingwithoutretrofit/MainActivity;Ljava/lang/String;Z)V
+    invoke-static {v3, v5, v2}, Lcom/example/restapicallingwithoutretrofit/WrapperMainActivity;->access$100(Lcom/example/restapicallingwithoutretrofit/WrapperMainActivity;Ljava/lang/String;Z)V
 
-    .line 117
+    .line 65
     :goto_0
     new-instance v3, Ljava/lang/StringBuilder;
 
@@ -254,18 +254,18 @@
     :try_end_0
     .catch Lorg/json/JSONException; {:try_start_0 .. :try_end_0} :catch_0
 
-    .line 121
+    .line 69
     nop
 
     .end local v0    # "jsonObject":Lorg/json/JSONObject;
     .end local v2    # "validStatus":Z
     goto :goto_1
 
-    .line 118
+    .line 66
     :catch_0
     move-exception v0
 
-    .line 119
+    .line 67
     .local v0, "e":Lorg/json/JSONException;
     new-instance v2, Ljava/lang/StringBuilder;
 
@@ -285,10 +285,10 @@
 
     invoke-static {v4, v1}, Landroid/util/Log;->d(Ljava/lang/String;Ljava/lang/String;)I
 
-    .line 120
+    .line 68
     invoke-virtual {v0}, Lorg/json/JSONException;->printStackTrace()V
 
-    .line 144
+    .line 73
     .end local v0    # "e":Lorg/json/JSONException;
     :goto_1
     return-void

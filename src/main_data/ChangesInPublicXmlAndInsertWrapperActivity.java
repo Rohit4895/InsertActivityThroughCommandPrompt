@@ -170,6 +170,7 @@ public class ChangesInPublicXmlAndInsertWrapperActivity {
 				words = s.split(" ");
 				for (String word : words) {
 					if (word.equals(replaceId)) {
+						System.out.println("old id :"+word+" id replaced with new id : "+newId);
 						line += newId + " ";
 					} else {
 						line += word + " ";
