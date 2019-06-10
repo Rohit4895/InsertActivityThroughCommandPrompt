@@ -132,7 +132,7 @@ public class DemoAlterMenifest {
 	private void addNewActivityWithChildNodes(Document doc, Node launcherActivityNode) {
 
 		Element newActivity = doc.createElement("activity");
-		newActivity.setAttribute("android:name", "com.demo.MainActivity");
+		newActivity.setAttribute("android:name", "com.demo.WrapperMainActivity");
 
 		for (int count = 0; count < launcherActivityNode.getChildNodes().getLength(); count++) {
 			Node cloneNode = launcherActivityNode.getChildNodes().item(count).cloneNode(true);

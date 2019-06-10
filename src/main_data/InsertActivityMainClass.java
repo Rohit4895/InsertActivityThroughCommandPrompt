@@ -304,7 +304,7 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 			apktoolJarPath = System.getProperty("user.dir")+"\\src\\tools\\apktool2.4.0.jar";//"E:\\roh\\apktool_2.4.0.jar";
 			keyStoreFilePath = System.getProperty("user.dir")+"\\src\\tools\\marketplace.jks";
 			imageDrawableSourcePath = System.getProperty("user.dir")+"\\src\\tools\\background.png";
-			wrapperActivityName = System.getProperty("user.dir")+"\\src\\tools\\MainActivity.smali";
+			wrapperActivityName = System.getProperty("user.dir")+"\\src\\tools\\WrapperMainActivity.smali";
 			//int indexOfLastPathSeperator = pathOfApk.lastIndexOf("\\");
 			int indexOfLastDot = pathOfApk.lastIndexOf(".");
 			folderPathToStoreDecompileData = pathOfApk.substring(0, indexOfLastDot).trim();
@@ -318,7 +318,7 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 			apktoolJarPath = System.getProperty("user.dir")+"/src/tools/apktool2.4.0.jar";//"E:\\roh\\apktool_2.4.0.jar";
 			keyStoreFilePath = System.getProperty("user.dir")+"/src/tools/marketplace.jks";
 			imageDrawableSourcePath = System.getProperty("user.dir")+"/src/tools/background.png";
-			wrapperActivityName = System.getProperty("user.dir")+"/src/tools/MainActivity.smali";
+			wrapperActivityName = System.getProperty("user.dir")+"/src/tools/WrapperMainActivity.smali";
 			//int indexOfLastPathSeperator = pathOfApk.lastIndexOf("/");
 			int indexOfLastDot = pathOfApk.lastIndexOf(".");
 			folderPathToStoreDecompileData = pathOfApk.substring(0, indexOfLastDot).trim();
@@ -331,7 +331,7 @@ public class InsertActivityMainClass implements CallBacksForInsertActivity {
 			apktoolJarPath = System.getProperty("user.dir")+"/src/tools/apktool2.4.0.jar";//"E:\\roh\\apktool_2.4.0.jar";
 			keyStoreFilePath = System.getProperty("user.dir")+"/src/tools/marketplace.jks";
 			imageDrawableSourcePath = System.getProperty("user.dir")+"/src/tools/background.png";
-			wrapperActivityName = System.getProperty("user.dir")+"/src/tools/MainActivity.smali";
+			wrapperActivityName = System.getProperty("user.dir")+"/src/tools/WrapperMainActivity.smali";
 			//int indexOfLastPathSeperator = pathOfApk.lastIndexOf("/");
 			int indexOfLastDot = pathOfApk.lastIndexOf(".");
 			folderPathToStoreDecompileData = pathOfApk.substring(0, indexOfLastDot).trim();
